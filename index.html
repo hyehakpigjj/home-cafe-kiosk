@@ -2,9 +2,11 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>집들이 홈카페 키오스크</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
         /* 기본 테마 색상 (연한 카키 & 연핑크) */
         :root {
             --bg-khaki: #E8EDE1;
@@ -12,22 +14,19 @@
             --btn-pink: #FF9FB8;
             --text-dark: #4A4A4A;
             --white: #FFFFFF;
-            --font-base: 16px;
+            --font-base: 22px; /* 기본적으로 글씨 크게 */
         }
 
         body {
             background-color: var(--bg-khaki);
             color: var(--text-dark);
-            font-family: 'Pretendard', -apple-system, sans-serif;
+            font-family: 'Noto Sans KR', sans-serif;
             margin: 0;
             padding: 0;
             font-size: var(--font-base);
             user-select: none; /* 아이패드 텍스트 선택 방지 */
-        }
-
-        /* 글씨 크게 보기 모드 */
-        body.large-text {
-            --font-base: 22px;
+            -webkit-user-select: none;
+            touch-action: manipulation; /* 더블터치 확대 방지 */
         }
 
         header {
@@ -53,9 +52,9 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .menu-container {
+    .menu-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr); /* 3개씩 배열 */
             gap: 20px;
             padding: 30px;
             margin-bottom: 150px; /* 장바구니 공간 확보 */
@@ -64,16 +63,21 @@
         .menu-card {
             background-color: var(--white);
             border-radius: 15px;
-            padding: 20px;
-            text-align: center;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; /* 아이콘과 글자 사이 간격 */
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             cursor: pointer;
             transition: transform 0.1s;
+            touch-action: manipulation;
         }
 
         .menu-card:active { transform: scale(0.95); }
-        .menu-card h3 { margin: 10px 0; font-size: 1.4em; }
-        .menu-icon { font-size: 3em; margin-bottom: 10px; }
+        .menu-card h3 { margin: 0; font-size: 1.6em; }
+        .menu-icon { font-size: 4em; }
+        .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
 
         /* 장바구니 (하단 고정) */
         .cart-bar {
@@ -153,10 +157,16 @@
         .qty-btn {
             background-color: var(--bg-khaki);
             border: none;
-            width: 40px; height: 40px;
+            width: 50px; height: 50px;
             border-radius: 50%;
-            font-size: 1.2em;
+            font-size: 1.5em;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* 텍스트 정중앙 위치 */
+            padding: 0;
+            line-height: 1;
+            touch-action: manipulation;
         }
 
         .modal-actions { display: flex; gap: 10px; }
@@ -166,39 +176,74 @@
         .btn-cancel { background-color: #ddd; }
         .btn-add { background-color: var(--btn-pink); color: white; }
 
-        /* 주문 완료 목록 */
-        #order-list { text-align: left; margin: 20px 0; max-height: 200px; overflow-y: auto; font-size: 1.2em;}
-        .order-item { border-bottom: 1px dashed #ccc; padding: 10px 0; }
+        /* 주문 완료 모달 크기 확장 */
+        #complete-modal .modal-content {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* 주문 완료 목록 (가로로 긴 양쪽 펼침 노트형) */
+        #order-list { 
+            text-align: left; 
+            margin: 20px 0; 
+            flex-grow: 1;
+            font-size: 1.5em; /* 주방에서 보기 쉽게 확대 */
+            column-count: 2; /* 2단 분할 */
+            column-gap: 40px;
+            column-rule: 2px dashed #ddd; /* 단 사이 구분선 */
+        }
+        .order-item { 
+            border-bottom: 1px dashed #ccc; 
+            padding: 15px 0; 
+            break-inside: avoid; /* 내용이 중간에 쪼개지는 것 방지 */
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>☕ 은경이네 홈카페</h1>
-        <button class="toggle-btn" onclick="toggleTextSize()">🔍 글씨 크게 보기</button>
+        <h1>☕ 혜은&정학 홈카페</h1>
     </header>
 
     <div class="menu-container">
         <div class="menu-card" onclick="openModal('아메리카노', true, true)">
             <div class="menu-icon">☕️</div>
-            <h3>아메리카노</h3>
+            <div class="menu-text-wrap">
+                <h3>아메리카노</h3>
+            </div>
         </div>
         <div class="menu-card" onclick="openModal('카페라떼', true, true)">
             <div class="menu-icon">🥛</div>
-            <h3>카페라떼</h3>
+            <div class="menu-text-wrap">
+                <h3>카페라떼</h3>
+            </div>
         </div>
         <div class="menu-card" onclick="openModal('히비스커스 티', true, false)">
             <div class="menu-icon">🫖</div>
-            <h3>히비스커스 티</h3>
+            <div class="menu-text-wrap">
+                <h3>히비스커스 티</h3>
+            </div>
         </div>
         <div class="menu-card" onclick="openModal('자두에이드', false, false)">
             <div class="menu-icon">🍹</div>
-            <h3>자두에이드</h3>
-            <p style="margin:0; font-size:0.9em; color:#888;">(아이스 전용)</p>
+            <div class="menu-text-wrap">
+                <h3>자두에이드</h3>
+                <p style="margin:0; font-size:0.9em; color:#888;">(아이스 전용)</p>
+            </div>
         </div>
         <div class="menu-card" onclick="openModal('맥주(카스)', false, false)">
             <div class="menu-icon">🍺</div>
-            <h3>맥주 (카스)</h3>
+            <div class="menu-text-wrap">
+                <h3>맥주 (카스)</h3>
+            </div>
+        </div>
+        <div class="menu-card" onclick="openModal('냉수', false, false)">
+            <div class="menu-icon">💧</div>
+            <div class="menu-text-wrap">
+                <h3>냉수</h3>
+            </div>
         </div>
     </div>
 
@@ -244,17 +289,16 @@
 
     <!-- 주문 완료 모달 (주방 확인용) -->
     <div class="modal-overlay" id="complete-modal">
-        <div class="modal-content" style="max-width: 500px;">
-            <div class="modal-title">🎉 주문 내역서 (주방용)</div>
+        <div class="modal-content">
+            <div class="modal-title" style="font-size: 2em;">📝 주문 내역서 (주방용)</div>
             <div id="order-list">
                 <!-- 주문 내역이 여기에 표시됩니다 -->
             </div>
-            <button class="btn-add" style="width: 100%; margin-top:20px;" onclick="resetKiosk()">새로운 주문 받기 (초기화)</button>
+            <button class="btn-add" style="width: 100%; margin-top:20px; padding: 25px; font-size: 1.5em;" onclick="resetKiosk()">새로운 주문 받기 (초기화)</button>
         </div>
     </div>
 
     <script>
-        let isLargeText = false;
         let cart = [];
         
         // 현재 모달 상태
@@ -262,11 +306,6 @@
         let currentTemp = '아이스';
         let currentShot = '기본';
         let currentQty = 1;
-
-        function toggleTextSize() {
-            isLargeText = !isLargeText;
-            document.body.classList.toggle('large-text', isLargeText);
-        }
 
         function openModal(menuName, hasTemp, hasShot) {
             currentMenu = menuName;
