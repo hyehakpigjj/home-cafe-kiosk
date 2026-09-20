@@ -280,13 +280,18 @@
         .btn-delete { background-color: #fce4e4; color: #d9534f; }
 
         /* 주문 완료 목록 (가로로 긴 양쪽 펼침 노트형, 스크롤 가능) */
+        /* 주문 완료 목록 (좌측 10개 우선 채움, 초과 시 우측, 스크롤 가능) */
         #order-list { 
             text-align: left; 
-            font-size: 1.2em; /* 1.5배 확대 크기 */
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 2단 분할 */
-            gap: 0px 40px; 
-            align-content: start;
+            font-size: 1.2em; 
+            display: flex; /* grid 대신 flex 사용 */
+            gap: 40px; /* 좌우 단 간격 */
+            align-items: flex-start;
+        }
+        .order-col {
+            flex: 1; /* 좌우 공간을 50%씩 동일하게 차지 */
+            display: flex;
+            flex-direction: column;
         }
         .order-item { 
             border-bottom: 1px dashed #ccc; 
@@ -304,15 +309,23 @@
             text-decoration: line-through;
         }
 
-        /* 헤더 관리자 아이콘 */
+        /* 헤더 우측 버튼 그룹 */
+        .header-buttons {
+            display: flex;
+            gap: 15px; /* 버튼 사이 간격 */
+            align-items: center;
+        }
+
+        /* 헤더 아이콘 버튼들 (음악, 관리자) */
         .admin-btn {
             background: none;
             border: none;
             font-size: 1.5em;
             cursor: pointer;
             transition: transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
         }
-        .admin-btn:active { transform: scale(0.9); }
+        .admin-btn:active { transform: scale(0.8); }
         
         /* 관리자 목록 */
         .admin-list-item {
@@ -341,8 +354,16 @@
 <body ontouchstart=""> <!-- ontouchstart 추가: 아이패드에서 터치 효과가 즉시 발동하도록 강제 -->
     <header>
         <h1>☕ 혜은&정학 홈카페</h1>
-        <button class="admin-btn" onclick="openAdminModal()">⚙️</button>
+        <div class="header-buttons">
+            <button class="admin-btn" id="music-btn" onclick="toggleMusic()">🎵</button>
+            <button class="admin-btn" onclick="openAdminModal()">⚙️</button>
+        </div>
     </header>
+
+    <!-- 배경음악 오디오 태그 (반복 재생 설정) -->
+    <audio id="bg-music" loop>
+        <source src="aria.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="menu-container">
         <div class="menu-card" onclick="openModal('아메리카노', true, true)">
@@ -719,9 +740,16 @@
             document.getElementById('order-title').innerText = order.title;
             
             const listEl = document.getElementById('order-list');
-            listEl.innerHTML = '';
+            // 좌측과 우측을 담을 두 개의 기둥(div)을 생성합니다.
+            listEl.innerHTML = `
+                <div id="order-col-left" class="order-col"></div>
+                <div id="order-col-right" class="order-col"></div>
+            `;
             
-            order.items.forEach((item) => {
+            const colLeft = document.getElementById('order-col-left');
+            const colRight = document.getElementById('order-col-right');
+            
+            order.items.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = `order-item ${item.completed ? 'completed' : ''}`;
                 
@@ -737,7 +765,12 @@
                     this.querySelector('.check-box').innerText = item.completed ? '✅' : '⬜';
                 };
 
-                listEl.appendChild(div);
+                // 10번째(index 0~9)까지는 왼쪽, 그 이후는 오른쪽에 담습니다.
+                if (index < 10) {
+                    colLeft.appendChild(div);
+                } else {
+                    colRight.appendChild(div);
+                }
             });
 
             document.getElementById('complete-modal').style.display = 'flex';
@@ -830,6 +863,25 @@
                 orderHistory = orderHistory.filter(order => order.id !== id);
                 renderAdminList(); // 목록 새로고침
             }
+        }
+
+        // --- 배경음악 재생 로직 ---
+        let isMusicPlaying = false;
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            const musicBtn = document.getElementById('music-btn');
+
+            if (isMusicPlaying) {
+                music.pause();
+                musicBtn.innerText = '🎵'; // 일시정지 시 다시 음표 아이콘으로
+            } else {
+                music.play().catch(error => {
+                    console.log("음원 재생 실패(파일이 없거나 브라우저 차단):", error);
+                    alert("음원 파일을 불러올 수 없습니다. aria.mp3 파일이 업로드되었는지 확인해주세요.");
+                });
+                musicBtn.innerText = '⏸️'; // 재생 중일 땐 일시정지 아이콘으로
+            }
+            isMusicPlaying = !isMusicPlaying;
         }
     </script>
 </body>
