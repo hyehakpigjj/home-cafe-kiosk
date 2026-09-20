@@ -253,7 +253,7 @@
         /* 주문 완료 목록 (가로로 긴 양쪽 펼침 노트형, 스크롤 가능) */
         #order-list { 
             text-align: left; 
-            font-size: 0.8em; /* 글씨 크기 절반 수준으로 축소 */
+            font-size: 1.2em; /* 기존 0.8em에서 1.5배 확대한 크기 */
             display: grid;
             grid-template-columns: 1fr 1fr; /* 2단 분할 (그리드 방식) */
             gap: 0px 40px; /* 세로 공백 제거, 가로 간격 40px 유지 */
@@ -274,12 +274,46 @@
             color: #aaa;
             text-decoration: line-through;
         }
+
+        /* 헤더 관리자 아이콘 */
+        .admin-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .admin-btn:active { transform: scale(0.9); }
+        
+        /* 관리자 목록 */
+        .admin-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 15px;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .admin-list-item:active, .admin-list-item:hover {
+            background-color: #f5f5f5;
+        }
+        .admin-list-time {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .admin-list-summary {
+            color: #666;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>☕ 혜은&정학 홈카페</h1>
+        <button class="admin-btn" onclick="openAdminModal()">⚙️</button>
     </header>
 
     <div class="menu-container">
@@ -327,7 +361,7 @@
             <div class="cart-info">담은 음료: <span id="total-qty">0</span>잔</div>
             <button class="cart-btn" onclick="openCartModal()">🛒 장바구니 확인</button>
         </div>
-        <button class="order-btn" onclick="showOrderComplete()">주문 완료하기</button>
+        <button class="order-btn" onclick="submitNewOrder()">주문 완료하기</button>
     </div>
 
     <!-- 옵션 선택 모달 -->
@@ -381,12 +415,25 @@
     <!-- 주문 완료 모달 (주방 확인용) -->
     <div class="modal-overlay" id="complete-modal">
         <div class="modal-content large-modal-content">
-            <div class="modal-title" style="font-size: 2em;">📝 주문 내역서 (주방용)</div>
+            <div class="modal-title" id="order-title" style="font-size: 1em;">📝 주문 내역서 (주방용)</div>
             <div id="order-list" class="modal-body-scroll">
                 <!-- 주문 내역이 여기에 표시됩니다 -->
             </div>
             <div class="modal-bottom-fixed">
-                <button class="order-btn" style="font-size: 1.5em; padding: 20px 50px;" onclick="resetKiosk()">새로운 주문 받기 (초기화)</button>
+                <button class="order-btn" style="font-size: 0.75em; padding: 10px 25px;" onclick="closeOrderComplete()">새로운 주문 받기 (돌아가기)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 관리자 페이지 모달 -->
+    <div class="modal-overlay" id="admin-modal">
+        <div class="modal-content large-modal-content">
+            <div class="modal-title" style="font-size: 1.5em;">⚙️ 관리자 페이지 (주문 목록)</div>
+            <div id="admin-list" class="modal-body-scroll" style="text-align: left;">
+                <!-- 과거 주문 내역들이 나열됩니다 -->
+            </div>
+            <div class="modal-bottom-fixed">
+                <button class="cart-btn" style="font-size: 1.2em; padding: 15px 40px;" onclick="closeAdminModal()">닫기</button>
             </div>
         </div>
     </div>
@@ -394,35 +441,51 @@
     <script>
         let cart = [];
         let cartIdCounter = 0;
-        let editingCartId = null; // 장바구니에서 옵션 수정 시 사용할 ID
+        let editingCartId = null;
+
+        // 시스템 전역 변수 (관리자용 데이터)
+        let orderHistory = []; // 제출된 주문들을 모아두는 배열
+        let currentViewingOrderId = null; // 현재 보고 있는 주문서 ID
         
+        // 정렬을 위한 메뉴 순서 배열 (지정하신 순서)
+        const MENU_ORDER = ['아메리카노', '카페라떼', '히비스커스 티', '자두에이드', '맥주(카스)', '냉수'];
+
         // 현재 모달 상태
         let currentMenu = '';
         let currentTemp = '아이스';
         let currentShot = '기본';
         let currentQty = 1;
 
-        // 메뉴 추가 또는 장바구니 수정 시 모달 열기
+        // 아이템 정렬 함수 (1순위: 메뉴 순서, 2순위: 담은 시간순)
+        function sortItems(itemsArray) {
+            return itemsArray.sort((a, b) => {
+                const indexA = MENU_ORDER.indexOf(a.menu);
+                const indexB = MENU_ORDER.indexOf(b.menu);
+                
+                if (indexA !== indexB) {
+                    const weightA = indexA === -1 ? 99 : indexA;
+                    const weightB = indexB === -1 ? 99 : indexB;
+                    return weightA - weightB;
+                }
+                return a.id - b.id; // 메뉴가 같으면 담은 시간순
+            });
+        }
+
         function openModal(menuName, hasTemp, hasShot, editId = null, defaultTemp = null, defaultShot = null, defaultQty = 1) {
             currentMenu = menuName;
             currentTemp = defaultTemp !== null ? defaultTemp : (hasTemp ? '아이스' : '');
             currentShot = defaultShot !== null ? defaultShot : (hasShot ? '기본' : '');
             currentQty = defaultQty;
-            editingCartId = editId; // 수정 모드인지 확인
+            editingCartId = editId; 
 
-            // 타이틀 변경 (수정 모드일 경우 표시)
             document.getElementById('modal-menu-name').innerText = menuName + (editId !== null ? ' (옵션 수정)' : '');
             document.getElementById('modal-qty').innerText = currentQty;
-
-            // 옵션 영역 노출 제어
             document.getElementById('temp-option-group').style.display = hasTemp ? 'block' : 'none';
             document.getElementById('shot-option-group').style.display = hasShot ? 'block' : 'none';
 
-            // 버튼 초기화
             document.querySelectorAll('.radio-btn').forEach(btn => btn.classList.remove('active'));
             if(hasTemp && currentTemp === '아이스') document.getElementById('btn-ice').classList.add('active');
             if(hasTemp && currentTemp === '핫') document.getElementById('btn-hot').classList.add('active');
-            
             if(hasShot && currentShot === '기본') document.getElementById('btn-shot-normal').classList.add('active');
             if(hasShot && currentShot === '연하게') document.getElementById('btn-shot-light').classList.add('active');
             if(hasShot && currentShot === '샷추가') document.getElementById('btn-shot-add').classList.add('active');
@@ -469,22 +532,17 @@
             }
 
             if (editingCartId !== null) {
-                // 기존 장바구니 아이템 옵션 수정
                 const itemIndex = cart.findIndex(item => item.id === editingCartId);
                 if (itemIndex > -1) {
                     cart[itemIndex] = { id: editingCartId, menu: currentMenu, temp: currentTemp, shot: currentShot, name: fullMenuName, qty: currentQty };
                 }
                 editingCartId = null;
-                renderCartList(); // 장바구니 화면도 새로고침
+                renderCartList(); 
             } else {
-                // 중복 메뉴(옵션까지 완전 동일) 체크
                 const existingItemIndex = cart.findIndex(item => item.menu === currentMenu && item.temp === currentTemp && item.shot === currentShot);
-                
                 if (existingItemIndex > -1) {
-                    // 완전히 동일한 옵션의 메뉴가 이미 있다면 수량만 증가
                     cart[existingItemIndex].qty += currentQty;
                 } else {
-                    // 동일한 옵션이 없다면 새로 추가
                     cartIdCounter++;
                     cart.push({ id: cartIdCounter, menu: currentMenu, temp: currentTemp, shot: currentShot, name: fullMenuName, qty: currentQty });
                 }
@@ -499,7 +557,7 @@
             document.getElementById('total-qty').innerText = totalQty;
         }
 
-        // --- 장바구니 모달 기능 ---
+        // --- 장바구니 로직 ---
         function openCartModal() {
             renderCartList();
             document.getElementById('cart-modal').style.display = 'flex';
@@ -518,7 +576,10 @@
                 return;
             }
 
-            cart.forEach(item => {
+            // 장바구니 렌더링 시 정렬 적용
+            const sortedCart = sortItems([...cart]);
+
+            sortedCart.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'cart-edit-item';
                 
@@ -529,7 +590,6 @@
                 const actionsDiv = document.createElement('div');
                 actionsDiv.className = 'cart-edit-actions';
 
-                // 수량 조절 버튼
                 const minusBtn = document.createElement('button');
                 minusBtn.className = 'qty-btn';
                 minusBtn.style.width = '40px'; minusBtn.style.height = '40px'; minusBtn.style.fontSize = '1.2em';
@@ -549,7 +609,6 @@
                 plusBtn.innerText = '+';
                 plusBtn.onclick = () => updateCartItemQty(item.id, 1);
 
-                // 옵션 수정 버튼
                 const editBtn = document.createElement('button');
                 editBtn.className = 'action-btn btn-edit';
                 editBtn.innerText = '옵션수정';
@@ -559,7 +618,6 @@
                     openModal(item.menu, hasTemp, hasShot, item.id, item.temp, item.shot, item.qty);
                 };
 
-                // 삭제 버튼
                 const deleteBtn = document.createElement('button');
                 deleteBtn.className = 'action-btn btn-delete';
                 deleteBtn.innerText = '삭제';
@@ -593,36 +651,61 @@
             renderCartList();
         }
 
-        // --- 주문 완료 모달 기능 ---
-        function showOrderComplete() {
+        // --- 주문 제출 및 내역서(주방용) 로직 ---
+        function submitNewOrder() {
             if (cart.length === 0) {
                 alert("담은 음료가 없습니다!");
                 return;
             }
+            closeCartModal(); 
 
-            closeCartModal(); // 혹시 열려있을 장바구니 닫기
+            // 타임스탬프 생성
+            const now = new Date();
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            const orderId = Date.now(); // 고유 ID로 사용
+            
+            // 정렬된 상태로 새 주문 객체 생성
+            const sortedCart = sortItems([...cart]);
+            const newOrder = {
+                id: orderId,
+                title: `📝 주문 내역서 (${timeStr})`,
+                timestamp: orderId,
+                items: sortedCart.map(item => ({ ...item, completed: false })) // 체크박스 상태 추가
+            };
+            
+            orderHistory.push(newOrder); // 관리자 데이터에 적재
+            
+            // 주문 완료되었으므로 현재 장바구니는 깔끔하게 비움
+            cart = [];
+            updateCartUI();
 
+            // 생성된 주문 내역서 화면 열기
+            openOrderComplete(orderId);
+        }
+
+        function openOrderComplete(orderId) {
+            currentViewingOrderId = orderId;
+            const order = orderHistory.find(o => o.id === orderId);
+            
+            document.getElementById('order-title').innerText = order.title;
+            
             const listEl = document.getElementById('order-list');
             listEl.innerHTML = '';
             
-            cart.forEach(item => {
+            order.items.forEach((item) => {
                 const div = document.createElement('div');
-                div.className = 'order-item';
+                div.className = `order-item ${item.completed ? 'completed' : ''}`;
                 
                 div.innerHTML = `
-                    <span class="check-box">⬜</span>
+                    <span class="check-box">${item.completed ? '✅' : '⬜'}</span>
                     <span class="item-text">${item.name} x ${item.qty}잔</span>
                 `;
                 
-                // 터치(클릭) 시 완료 상태 토글 (체크 및 취소선)
+                // 터치 시 해당 주문의 완료 상태(데이터) 업데이트 및 화면 변경
                 div.onclick = function() {
-                    this.classList.toggle('completed');
-                    const checkBox = this.querySelector('.check-box');
-                    if (this.classList.contains('completed')) {
-                        checkBox.innerText = '✅';
-                    } else {
-                        checkBox.innerText = '⬜';
-                    }
+                    item.completed = !item.completed; 
+                    this.classList.toggle('completed', item.completed);
+                    this.querySelector('.check-box').innerText = item.completed ? '✅' : '⬜';
                 };
 
                 listEl.appendChild(div);
@@ -631,10 +714,54 @@
             document.getElementById('complete-modal').style.display = 'flex';
         }
 
-        function resetKiosk() {
-            cart = [];
-            updateCartUI();
+        function closeOrderComplete() {
+            currentViewingOrderId = null;
             document.getElementById('complete-modal').style.display = 'none';
+        }
+
+        // --- 관리자 페이지 로직 ---
+        function openAdminModal() {
+            renderAdminList();
+            document.getElementById('admin-modal').style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').style.display = 'none';
+        }
+
+        function renderAdminList() {
+            const listEl = document.getElementById('admin-list');
+            listEl.innerHTML = '';
+            
+            if (orderHistory.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; padding: 50px 0; color:#888; font-size:1.2em;">들어온 주문이 없습니다.</div>';
+                return;
+            }
+
+            // 오름차순 정렬 (먼저 들어온 주문이 위로)
+            orderHistory.sort((a, b) => a.timestamp - b.timestamp).forEach(order => {
+                const div = document.createElement('div');
+                div.className = 'admin-list-item';
+                
+                const totalCups = order.items.reduce((sum, item) => sum + item.qty, 0);
+                const completedCups = order.items.filter(item => item.completed).reduce((sum, item) => sum + item.qty, 0);
+                
+                div.innerHTML = `
+                    <div>
+                        <div class="admin-list-time">${order.title.replace('📝 ', '')}</div>
+                        <div class="admin-list-summary">총 ${totalCups}잔 (제조 완료: ${completedCups}잔)</div>
+                    </div>
+                    <div style="font-size: 1.5em; color: #888;">➡️</div>
+                `;
+                
+                // 해당 리스트 터치 시 그 주문의 상세 화면(주방용 내역서) 오픈
+                div.onclick = () => {
+                    closeAdminModal();
+                    openOrderComplete(order.id);
+                };
+
+                listEl.appendChild(div);
+            });
         }
     </script>
 </body>
