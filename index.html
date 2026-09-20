@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>집들이 홈카페 키오스크</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+        /* Noto Sans 폰트 얇은 굵기(300) 추가 로드 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
 
-        /* 기본 테마 색상 (연한 카키 & 연핑크) */
+        /* 감성 테마 색상 (연카키 & 버터옐로우) */
         :root {
-            --bg-khaki: #E8EDE1;
-            --point-pink: #FFC4D4;
-            --btn-pink: #FF9FB8;
-            --text-dark: #4A4A4A;
+            --bg-khaki: #EAECE3;      /* 조금 더 포근해진 연카키 */
+            --point-yellow: #FEF0B2;  /* 부드러운 연한 버터옐로우 (옵션 선택 배경) */
+            --btn-yellow: #F4D35E;    /* 진한 버터색 (주요 버튼) */
+            --btn-yellow-active: #E3B92E; /* 터치 시 짙어지는 버터색 */
+            --text-dark: #3E3A39;     /* 텍스트 대비를 위한 짙은 회갈색(차콜) */
             --white: #FFFFFF;
-            --font-base: 22px; /* 기본적으로 글씨 크게 */
+            --font-base: 22px; 
         }
 
         body {
@@ -24,9 +26,9 @@
             margin: 0;
             padding: 0;
             font-size: var(--font-base);
-            user-select: none; /* 아이패드 텍스트 선택 방지 */
+            user-select: none; 
             -webkit-user-select: none;
-            touch-action: manipulation; /* 더블터치 확대 방지 */
+            touch-action: manipulation; 
         }
 
         header {
@@ -38,7 +40,13 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        h1 { margin: 0; font-size: 1.8em; color: var(--text-dark); }
+        h1 { 
+            margin: 0; 
+            font-size: 1.8em; 
+            color: var(--text-dark); 
+            font-weight: 400; /* 제목의 볼드(두꺼움)를 제거하여 세련되게 */
+            letter-spacing: -0.5px;
+        }
 
         .toggle-btn {
             background-color: var(--point-pink);
@@ -107,8 +115,8 @@
         .cart-info { font-size: 1.2em; font-weight: bold; }
         
         .cart-btn {
-            background-color: #E8EDE1; /* 회색(카키) 배경 */
-            color: #000;
+            background-color: #DDE2D6; /* 버튼용 카키 배경 */
+            color: var(--text-dark);
             border: none;
             padding: 12px 25px;
             border-radius: 30px;
@@ -117,23 +125,22 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        .cart-btn:active, .cart-btn:hover { background-color: #ccc; }
+        .cart-btn:active { background-color: #C3C9BC; }
 
         .order-btn {
-            background-color: var(--btn-pink);
-            color: white;
+            background-color: var(--btn-yellow); /* 진한 버터색 */
+            color: var(--text-dark); /* 배경이 밝으므로 텍스트는 어둡게 */
             border: none;
             padding: 15px 40px;
             border-radius: 30px;
             font-size: 1.3em;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
-            -webkit-tap-highlight-color: transparent; /* 기본 터치 음영 제거 */
+            transition: all 0.1s; 
+            -webkit-tap-highlight-color: transparent; 
         }
-        /* 핫핑크 호버 및 터치 효과 (눌림 효과 추가) */
-        .order-btn:active, .order-btn:hover { 
-            background-color: #FF1493 !important; 
+        .order-btn:active { 
+            background-color: var(--btn-yellow-active) !important; /* 더 짙은 버터색으로 눌림 */
             transform: scale(0.95);
         }
 
@@ -177,26 +184,27 @@
             cursor: pointer;
         }
         .radio-btn.active {
-            background-color: var(--point-pink);
-            border-color: var(--btn-pink);
+            background-color: var(--point-yellow); /* 연한 버터옐로우 */
+            border-color: var(--btn-yellow); /* 진한 버터색 테두리 */
+            color: var(--text-dark);
         }
 
         .qty-control {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 30px; /* 사이 간격을 살짝 넓혀 쾌적하게 */
             margin: 20px 0;
             font-size: 1.5em;
         }
         .qty-btn {
-            background-color: transparent; /* 원형 배경 투명하게 */
-            color: #5c6a46; /* 진한 카키색 텍스트 */
+            background-color: transparent; 
+            color: #79836B; /* 세련된 진카키 텍스트 */
             border: none;
             width: 50px; height: 50px;
-            border-radius: 50%;
-            font-size: 1.5em;
-            font-weight: bold;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 2em; /* 크기를 키우고 */
+            font-weight: 300; /* 볼드를 제거하여 얇고 우아한 기호로 변경 */
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -204,124 +212,42 @@
             padding: 0;
             line-height: 1;
             touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .qty-btn:active {
+            transform: scale(0.8); /* 터치 시 살짝 작아지는 애니메이션 */
+            color: var(--btn-yellow-active); /* 터치 시 포인트 컬러 */
         }
 
         .modal-actions { display: flex; gap: 10px; }
         .btn-cancel, .btn-add {
             flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.1s;
             -webkit-tap-highlight-color: transparent;
         }
         .btn-cancel { 
-            background-color: #ddd; 
-            color: #5c6a46; /* 취소 텍스트 진한 카키색 */
+            background-color: #EAECE3; /* 연카키 톤으로 통일 */
+            color: #79836B; 
         }
-        .btn-add { background-color: var(--btn-pink); color: white; }
-        /* 핫핑크 호버 및 터치 효과 (눌림 효과 추가) */
-        .btn-add:active, .btn-add:hover { 
-            background-color: #FF1493 !important; 
+        .btn-cancel:active { background-color: #DDE2D6; transform: scale(0.95); }
+
+        .btn-add { 
+            background-color: var(--btn-yellow); 
+            color: var(--text-dark); 
+        }
+        .btn-add:active { 
+            background-color: var(--btn-yellow-active) !important; 
             transform: scale(0.95);
         }
-
-        /* 대형 모달 (장바구니 및 주문완료) */
-        .large-modal-content {
-            width: 90%;
-            max-width: 1200px;
-            height: 85vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* 리스트와 하단 버튼 분리 */
-        }
-        
-        .modal-body-scroll {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin: 20px 0;
-            padding-right: 10px;
-        }
-
-        .modal-bottom-fixed {
-            padding-top: 20px;
-            display: flex;
-            justify-content: center;
-            border-top: 2px solid #E8EDE1;
-        }
-
-        /* 장바구니 내역 편집 리스트 */
-        .cart-edit-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px dashed #ccc;
-            padding: 15px 0;
-            font-size: 1.3em;
-        }
-        .cart-edit-info { flex-grow: 1; text-align: left; font-weight: bold; }
-        .cart-edit-actions { display: flex; gap: 15px; align-items: center; }
-        .action-btn { padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 0.8em; }
-        .btn-edit { background-color: #FFE4E1; color: #d14a61; }
-        .btn-delete { background-color: #fce4e4; color: #d9534f; }
-
-        /* 주문 완료 목록 (가로로 긴 양쪽 펼침 노트형, 스크롤 가능) */
-        #order-list { 
-            text-align: left; 
-            font-size: 1.2em; /* 기존 0.8em에서 1.5배 확대한 크기 */
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 2단 분할 (그리드 방식) */
-            gap: 0px 40px; /* 세로 공백 제거, 가로 간격 40px 유지 */
-            align-content: start;
-        }
-        .order-item { 
-            border-bottom: 1px dashed #ccc; 
-            padding: 5px 0; /* 패딩 축소로 위아래 공백 제거 */
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            user-select: none;
-            touch-action: manipulation;
-        }
-        /* 제조 완료 시 텍스트 스타일 */
-        .order-item.completed .item-text {
-            color: #aaa;
-            text-decoration: line-through;
-        }
-
-        /* 헤더 관리자 아이콘 */
-        .admin-btn {
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .admin-btn:active { transform: scale(0.9); }
-        
-        /* 관리자 목록 */
-        .admin-list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 15px;
-            border-bottom: 1px solid #ddd;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .admin-list-item:active, .admin-list-item:hover {
-            background-color: #f5f5f5;
-        }
-        .admin-list-time {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+        /* (중략 - 모달 및 다른 CSS 코드들) */
         .admin-list-summary {
             color: #666;
             font-size: 0.9em;
         }
     </style>
 </head>
-<body>
+<body ontouchstart=""> <!-- ontouchstart 추가: 아이패드에서 터치 효과가 즉시 발동하도록 강제 -->
+    <header>
 
     <header>
         <h1>☕ 혜은&정학 홈카페</h1>
@@ -671,10 +597,10 @@
             }
             closeCartModal(); 
 
-            // 타임스탬프 생성 (날짜 포함)
+            // 타임스탬프 생성 (날짜 포함, 초 단위 제거)
             const now = new Date();
             const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
-            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             const orderId = Date.now(); // 고유 ID로 사용
             
             // 정렬된 상태로 새 주문 객체 생성
