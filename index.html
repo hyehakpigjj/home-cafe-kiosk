@@ -76,7 +76,11 @@
 
         .menu-card:active { transform: scale(0.95); }
         .menu-card h3 { margin: 0; font-size: 1.6em; }
-        .menu-icon { font-size: 4em; }
+        .menu-icon { 
+            width: 60px; /* 가로를 살짝 줄여서 날씬하게 */
+            height: 80px; /* 세로를 길게 늘려서 길쭉한 컵 모양으로 */
+            /* object-fit 속성을 지워서 강제로 설정한 가로/세로 비율에 맞춰지도록 함 */
+        }
         .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
 
         /* 장바구니 (하단 고정) */
@@ -326,38 +330,38 @@
 
     <div class="menu-container">
         <div class="menu-card" onclick="openModal('아메리카노', true, true)">
-            <div class="menu-icon">☕️</div>
+            <img src="americano.png" class="menu-icon" alt="아메리카노">
             <div class="menu-text-wrap">
                 <h3>아메리카노</h3>
             </div>
         </div>
         <div class="menu-card" onclick="openModal('카페라떼', true, true)">
-            <div class="menu-icon">🥛</div>
+            <img src="latte.png" class="menu-icon" alt="카페라떼">
             <div class="menu-text-wrap">
                 <h3>카페라떼</h3>
             </div>
         </div>
         <div class="menu-card" onclick="openModal('히비스커스 티', true, false)">
-            <div class="menu-icon">🫖</div>
+            <img src="tea.png" class="menu-icon" alt="히비스커스 티">
             <div class="menu-text-wrap">
                 <h3>히비스커스 티</h3>
             </div>
         </div>
         <div class="menu-card" onclick="openModal('자두에이드', false, false)">
-            <div class="menu-icon">🍹</div>
+            <img src="jadu.png" class="menu-icon" alt="자두에이드">
             <div class="menu-text-wrap">
                 <h3>자두에이드</h3>
                 <p style="margin:0; font-size:0.9em; color:#888;">(아이스 전용)</p>
             </div>
         </div>
         <div class="menu-card" onclick="openModal('맥주(카스)', false, false)">
-            <div class="menu-icon">🍺</div>
+            <img src="beer.png" class="menu-icon" alt="맥주">
             <div class="menu-text-wrap">
                 <h3>맥주 (카스)</h3>
             </div>
         </div>
         <div class="menu-card" onclick="openModal('냉수', false, false)">
-            <div class="menu-icon">💧</div>
+            <img src="water.png" class="menu-icon" alt="냉수">
             <div class="menu-text-wrap">
                 <h3>냉수</h3>
             </div>
