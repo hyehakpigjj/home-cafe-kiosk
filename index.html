@@ -124,10 +124,14 @@
             font-size: 1.3em;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent; /* 기본 터치 음영 제거 */
         }
-        /* 핫핑크 호버 및 터치 효과 */
-        .order-btn:active, .order-btn:hover { background-color: #FF1493; } 
+        /* 핫핑크 호버 및 터치 효과 (눌림 효과 추가) */
+        .order-btn:active, .order-btn:hover { 
+            background-color: #FF1493 !important; 
+            transform: scale(0.95);
+        }
 
         /* 모달 팝업 */
         .modal-overlay {
@@ -201,15 +205,19 @@
         .modal-actions { display: flex; gap: 10px; }
         .btn-cancel, .btn-add {
             flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
         .btn-cancel { 
             background-color: #ddd; 
             color: #5c6a46; /* 취소 텍스트 진한 카키색 */
         }
         .btn-add { background-color: var(--btn-pink); color: white; }
-        /* 핫핑크 호버 및 터치 효과 */
-        .btn-add:active, .btn-add:hover { background-color: #FF1493; }
+        /* 핫핑크 호버 및 터치 효과 (눌림 효과 추가) */
+        .btn-add:active, .btn-add:hover { 
+            background-color: #FF1493 !important; 
+            transform: scale(0.95);
+        }
 
         /* 대형 모달 (장바구니 및 주문완료) */
         .large-modal-content {
@@ -659,8 +667,9 @@
             }
             closeCartModal(); 
 
-            // 타임스탬프 생성
+            // 타임스탬프 생성 (날짜 포함)
             const now = new Date();
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
             const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
             const orderId = Date.now(); // 고유 ID로 사용
             
@@ -668,7 +677,7 @@
             const sortedCart = sortItems([...cart]);
             const newOrder = {
                 id: orderId,
-                title: `📝 주문 내역서 (${timeStr})`,
+                title: `📝 주문 내역서 (${dateStr} ${timeStr})`,
                 timestamp: orderId,
                 items: sortedCart.map(item => ({ ...item, completed: false })) // 체크박스 상태 추가
             };
@@ -742,26 +751,65 @@
             orderHistory.sort((a, b) => a.timestamp - b.timestamp).forEach(order => {
                 const div = document.createElement('div');
                 div.className = 'admin-list-item';
+                div.style.cursor = 'default';
                 
                 const totalCups = order.items.reduce((sum, item) => sum + item.qty, 0);
                 const completedCups = order.items.filter(item => item.completed).reduce((sum, item) => sum + item.qty, 0);
                 
-                div.innerHTML = `
-                    <div>
-                        <div class="admin-list-time">${order.title.replace('📝 ', '')}</div>
-                        <div class="admin-list-summary">총 ${totalCups}잔 (제조 완료: ${completedCups}잔)</div>
-                    </div>
-                    <div style="font-size: 1.5em; color: #888;">➡️</div>
+                // 1. 주문 정보 영역 (터치 시 상세 모달 오픈)
+                const infoDiv = document.createElement('div');
+                infoDiv.style.flexGrow = '1';
+                infoDiv.style.cursor = 'pointer';
+                infoDiv.onclick = () => {
+                    closeAdminModal();
+                    openOrderComplete(order.id);
+                };
+                infoDiv.innerHTML = `
+                    <div class="admin-list-time">${order.title.replace('📝 ', '')}</div>
+                    <div class="admin-list-summary">총 ${totalCups}잔 (제조 완료: ${completedCups}잔)</div>
                 `;
-                
-                // 해당 리스트 터치 시 그 주문의 상세 화면(주방용 내역서) 오픈
-                div.onclick = () => {
+
+                // 2. 우측 버튼 영역 (삭제 버튼 + 화살표)
+                const actionDiv = document.createElement('div');
+                actionDiv.style.display = 'flex';
+                actionDiv.style.alignItems = 'center';
+                actionDiv.style.gap = '15px';
+
+                // 삭제 버튼
+                const delBtn = document.createElement('button');
+                delBtn.className = 'action-btn btn-delete';
+                delBtn.innerText = '삭제';
+                delBtn.onclick = (e) => {
+                    e.stopPropagation(); // 영역 클릭 시 모달창이 뜨는 것을 방지
+                    deleteOrderHistory(order.id);
+                };
+
+                // 화살표 아이콘 (터치 시 상세 모달 오픈)
+                const arrowDiv = document.createElement('div');
+                arrowDiv.style.fontSize = '1.5em';
+                arrowDiv.style.color = '#888';
+                arrowDiv.style.cursor = 'pointer';
+                arrowDiv.innerText = '➡️';
+                arrowDiv.onclick = () => {
                     closeAdminModal();
                     openOrderComplete(order.id);
                 };
 
+                actionDiv.appendChild(delBtn);
+                actionDiv.appendChild(arrowDiv);
+
+                div.appendChild(infoDiv);
+                div.appendChild(actionDiv);
                 listEl.appendChild(div);
             });
+        }
+
+        // 주문 내역 삭제 기능
+        function deleteOrderHistory(id) {
+            if (confirm("이 주문 내역을 삭제하시겠습니까?")) {
+                orderHistory = orderHistory.filter(order => order.id !== id);
+                renderAdminList(); // 목록 새로고침
+            }
         }
     </script>
 </body>
