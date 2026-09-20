@@ -139,6 +139,10 @@
             align-items: center;
             z-index: 1000;
         }
+        /* 옵션 모달을 장바구니 모달보다 항상 위로 노출 */
+        #option-modal {
+            z-index: 1050; 
+        }
 
         .modal-content {
             background: var(--white);
@@ -178,11 +182,13 @@
             font-size: 1.5em;
         }
         .qty-btn {
-            background-color: var(--bg-khaki);
+            background-color: transparent; /* 원형 배경 투명하게 */
+            color: #5c6a46; /* 진한 카키색 텍스트 */
             border: none;
             width: 50px; height: 50px;
             border-radius: 50%;
             font-size: 1.5em;
+            font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -197,7 +203,10 @@
             flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer;
             transition: background-color 0.2s;
         }
-        .btn-cancel { background-color: #ddd; }
+        .btn-cancel { 
+            background-color: #ddd; 
+            color: #5c6a46; /* 취소 텍스트 진한 카키색 */
+        }
         .btn-add { background-color: var(--btn-pink); color: white; }
         /* 핫핑크 호버 및 터치 효과 */
         .btn-add:active, .btn-add:hover { background-color: #FF1493; }
@@ -244,18 +253,18 @@
         /* 주문 완료 목록 (가로로 긴 양쪽 펼침 노트형, 스크롤 가능) */
         #order-list { 
             text-align: left; 
-            font-size: 1.5em; /* 주방에서 보기 쉽게 확대 */
+            font-size: 0.8em; /* 글씨 크기 절반 수준으로 축소 */
             display: grid;
             grid-template-columns: 1fr 1fr; /* 2단 분할 (그리드 방식) */
-            gap: 15px 40px; /* 세로 간격 15px, 가로 간격 40px */
+            gap: 0px 40px; /* 세로 공백 제거, 가로 간격 40px 유지 */
             align-content: start;
         }
         .order-item { 
             border-bottom: 1px dashed #ccc; 
-            padding: 15px 0; 
+            padding: 5px 0; /* 패딩 축소로 위아래 공백 제거 */
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             cursor: pointer;
             user-select: none;
             touch-action: manipulation;
@@ -468,9 +477,17 @@
                 editingCartId = null;
                 renderCartList(); // 장바구니 화면도 새로고침
             } else {
-                // 새 아이템 추가
-                cartIdCounter++;
-                cart.push({ id: cartIdCounter, menu: currentMenu, temp: currentTemp, shot: currentShot, name: fullMenuName, qty: currentQty });
+                // 중복 메뉴(옵션까지 완전 동일) 체크
+                const existingItemIndex = cart.findIndex(item => item.menu === currentMenu && item.temp === currentTemp && item.shot === currentShot);
+                
+                if (existingItemIndex > -1) {
+                    // 완전히 동일한 옵션의 메뉴가 이미 있다면 수량만 증가
+                    cart[existingItemIndex].qty += currentQty;
+                } else {
+                    // 동일한 옵션이 없다면 새로 추가
+                    cartIdCounter++;
+                    cart.push({ id: cartIdCounter, menu: currentMenu, temp: currentTemp, shot: currentShot, name: fullMenuName, qty: currentQty });
+                }
             }
 
             updateCartUI();
