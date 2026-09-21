@@ -85,7 +85,7 @@
             cursor: pointer;
             transition: transform 0.1s;
             touch-action: manipulation;
-            position: relative; /* 라떼 말풍선 배지 배치를 위해 추가 */
+            position: relative; 
         }
 
         .menu-card:active { transform: scale(0.95); }
@@ -96,18 +96,40 @@
         }
         .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
 
-        /* 라떼 락토프리 말풍선 배지 */
-        .badge-lactose {
+        /* 설명 모달 버튼 (우측 상단 배지 스타일) */
+        .badge-info {
             position: absolute;
             top: 10px;
             right: 15px;
             background-color: var(--point-yellow);
             color: var(--text-dark);
-            font-size: 0.65em;
+            font-size: 0.6em;
             font-weight: 700;
             padding: 4px 8px;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .badge-info:active {
+            transform: scale(0.9);
+        }
+        /* 둥근 원형 i 아이콘 */
+        .info-icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            background-color: var(--text-dark);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 0.85em;
+            font-style: italic;
+            font-weight: bold;
         }
 
         /* 장바구니 (하단 고정) */
@@ -164,7 +186,7 @@
             transform: scale(0.95);
         }
 
-        /* 모달 팝업 */
+        /* 모달 팝업 공통 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -174,7 +196,7 @@
             align-items: center;
             z-index: 1000;
         }
-        #option-modal {
+        #option-modal, #desc-modal {
             z-index: 1050; 
         }
 
@@ -185,10 +207,30 @@
             width: 80%;
             max-width: 400px;
             text-align: center;
+            position: relative;
         }
 
         .modal-title { font-size: 1.5em; margin-bottom: 20px; font-weight: bold; }
         
+        /* 설명 모달 전용 스타일 */
+        .desc-modal-body {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin: 25px 0 35px 0;
+            word-break: keep-all;
+        }
+        .close-x-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #888;
+        }
+
         .option-group { margin-bottom: 20px; text-align: left; }
         .option-group label { display: block; margin-bottom: 10px; font-weight: bold; font-size: 1.1em;}
         
@@ -382,21 +424,25 @@
                 <h3>아메리카노</h3>
             </div>
         </div>
-        <!-- 2. 카페라떼 (락토프리 배지, 아이스 전용) -->
+        <!-- 2. 카페라떼 (배 아픈 우유! 설명 모달 버튼 추가, 아이스 전용) -->
         <div class="menu-card" onclick="openModal('카페라떼', false, true)">
-            <div class="badge-lactose">락토프리!</div>
+            <div class="badge-info" onclick="event.stopPropagation(); openDescModal('배 안 아픈 우유!', '락토프리 우유로 만들어요. 우유에 들어있는 유당(락토오스)을 제거해, 마신 후 배탈이 나지 않아요!')">
+                <span class="info-icon-circle">i</span> 배 안 아픈 우유!
+            </div>
             <img src="latte.png" class="menu-icon" alt="카페라떼">
             <div class="menu-text-wrap">
                 <h3>카페라떼</h3>
                 <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
             </div>
         </div>
-        <!-- 3. 히비스커스 티 (아이스 전용) -->
-        <div class="menu-card" onclick="openModal('히비스커스 티', false, false)">
+        <!-- 3. 히비스커스 티 (혜은 추천! 설명 모달 버튼 추가, 핫/아이스 가능) -->
+        <div class="menu-card" onclick="openModal('히비스커스 티', true, true)">
+            <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달달한 꽃차인데 제로 슈가예요! 소화가 잘 되게 해주는 성분이 있대요. 아이스로 마셔도 맛있어요. 혜은이 좋아하는 차')">
+                <span class="info-icon-circle">i</span> 혜은 추천!
+            </div>
             <img src="tea.png" class="menu-icon" alt="히비스커스 티">
             <div class="menu-text-wrap">
                 <h3>히비스커스 티</h3>
-                <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
             </div>
         </div>
         <!-- 4. 자두에이드 -->
@@ -407,8 +453,11 @@
                 <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
             </div>
         </div>
-        <!-- 5. 나랑드사이다 (신규) -->
+        <!-- 5. 나랑드사이다 (나랑드 파인애플 설명 모달 버튼 추가) -->
         <div class="menu-card" onclick="openModal('나랑드사이다', false, false)">
+            <div class="badge-info" onclick="event.stopPropagation(); openDescModal('나랑드 파인애플', '나랑드 사이드 파인 애플맛을 얼음과 함께 드려요. 제로 슈가예요!')">
+                <span class="info-icon-circle">i</span> 나랑드 파인애플
+            </div>
             <img src="cider.png" class="menu-icon" alt="나랑드사이다">
             <div class="menu-text-wrap">
                 <h3>나랑드사이다</h3>
@@ -428,14 +477,14 @@
                 <h3>맥주 (카스)</h3>
             </div>
         </div>
-        <!-- 8. 소맥 (신규) -->
+        <!-- 8. 소맥 -->
         <div class="menu-card" onclick="openModal('소맥', false, false)">
             <img src="somak.png" class="menu-icon" alt="소맥">
             <div class="menu-text-wrap">
                 <h3>소맥</h3>
             </div>
         </div>
-        <!-- 9. 소주 (신규) -->
+        <!-- 9. 소주 -->
         <div class="menu-card" onclick="openModal('소주', false, false)">
             <img src="soju.png" class="menu-icon" alt="소주">
             <div class="menu-text-wrap">
@@ -450,6 +499,15 @@
             <button class="cart-btn" onclick="openCartModal()">🛒 장바구니 확인</button>
         </div>
         <button class="order-btn" onclick="submitNewOrder()">주문 완료하기</button>
+    </div>
+
+    <!-- 공통 설명 모달 -->
+    <div class="modal-overlay" id="desc-modal">
+        <div class="modal-content">
+            <button class="close-x-btn" onclick="closeDescModal()">✕</button>
+            <div class="modal-title" id="desc-modal-title">설명 제목</div>
+            <div class="desc-modal-body" id="desc-modal-text">설명 내용이 여기에 들어갑니다.</div>
+        </div>
     </div>
 
     <!-- 옵션 선택 모달 -->
@@ -559,6 +617,17 @@
             });
         }
 
+        // --- 설명 모달 제어 함수 ---
+        function openDescModal(title, text) {
+            document.getElementById('desc-modal-title').innerText = title;
+            document.getElementById('desc-modal-text').innerText = text;
+            document.getElementById('desc-modal').style.display = 'flex';
+        }
+
+        function closeDescModal() {
+            document.getElementById('desc-modal').style.display = 'none';
+        }
+
         function openModal(menuName, hasTemp, hasShot, editId = null, defaultTemp = null, defaultShot = null, defaultQty = 1) {
             currentMenu = menuName;
             currentTemp = defaultTemp !== null ? defaultTemp : (hasTemp ? '아이스' : '');
@@ -569,7 +638,7 @@
             document.getElementById('modal-menu-name').innerText = menuName + (editId !== null ? ' (옵션 수정)' : '');
             document.getElementById('modal-qty').innerText = currentQty;
             
-            // 온도/샷 옵션 영역 노출 제어 (히비스커스나 라떼는 온도 선택 영역 숨김)
+            // 온도/샷 옵션 영역 노출 제어
             document.getElementById('temp-option-group').style.display = hasTemp ? 'block' : 'none';
             document.getElementById('shot-option-group').style.display = hasShot ? 'block' : 'none';
 
@@ -702,7 +771,7 @@
                 editBtn.className = 'action-btn btn-edit';
                 editBtn.innerText = '옵션수정';
                 editBtn.onclick = () => {
-                    const hasTemp = (item.menu === '아메리카노'); // 아메리카노만 온도 선택 가능
+                    const hasTemp = (item.menu === '아메리카노' || item.menu === '히비스커스 티'); // 아메리카노, 히비스커스 온도 선택 가능
                     const hasShot = (item.menu === '아메리카노' || item.menu === '카페라떼' || item.menu === '히비스커스 티');
                     openModal(item.menu, hasTemp, hasShot, item.id, item.temp, item.shot, item.qty);
                 };
@@ -799,7 +868,6 @@
                     this.querySelector('.check-box').innerText = item.completed ? '✅' : '⬜';
                 };
 
-                // 왼쪽 10개 우선 채우고 이후 오른쪽으로 분할
                 if (index < 10) {
                     colLeft.appendChild(div);
                 } else {
