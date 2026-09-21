@@ -68,8 +68,8 @@
             margin: 0; 
             font-size: 1.8em; 
             color: var(--text-dark); 
-            font-family: 'GmarketSans', sans-serif; /* 제목: 지마켓 산스 */
-            font-weight: 700; 
+            font-family: 'GmarketSans', sans-serif; 
+            font-weight: 300; /* 제목을 가늘게 변경 */
             letter-spacing: -0.5px;
         }
         /* 헤더 우측 버튼 그룹 */
@@ -125,8 +125,30 @@
         .menu-card h3 { 
             margin: 0; 
             font-size: 1.5em; 
-            font-family: 'GmarketSans', sans-serif; /* 메뉴명: 지마켓 산스 */
-            font-weight: 500; 
+            font-family: 'GmarketSans', sans-serif; 
+            font-weight: 700; /* 메뉴 텍스트를 굵게 변경 */
+        }
+
+        /* 우측 상단 뱃지 컨테이너 (여러 개 나란히 정렬용) */
+        .card-badges {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* 단순 정보형 뱃지 */
+        .badge-static {
+            background: #F4F1EA;
+            color: #666;
+            font-size: 0.55em;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.04);
         }
         .menu-icon { 
             width: 60px; 
@@ -500,40 +522,38 @@
         <!-- 2. 카페라떼 -->
         <div class="menu-card" onclick="openModal('카페라떼', false, true)">
             <div class="card-badges">
-                <div class="badge-info" onclick="event.stopPropagation(); openDescModal('배 안 아픈 우유!', '락토프리 우유로 만들어요.<br>우유에 들어있는 유당을 제거해,<br>마신 후 배탈이 나지 않아요!')">
-                    <span class="info-icon-circle">i</span> 배 안 아픈 우유!
-                </div>
+                <div class="badge-static">아이스 전용</div>
             </div>
             <img src="latte.png" class="menu-icon" alt="카페라떼">
             <div class="menu-text-wrap">
                 <h3>카페라떼</h3>
-                <p style="margin:0; font-size:0.85em; color:#777;">(아이스 전용)</p>
             </div>
         </div>
-        <!-- 3. 히비스커스 티 (혜은 추천 + 제로 슈가 나란히) -->
-        <div class="menu-card" onclick="openModal('히비스커스 티', true, true)">
+        <!-- 3. 히비스커스 티 (혜은 추천 + 제로 슈가 + 아이스 전용 나란히) -->
+        <div class="menu-card" onclick="openModal('히비스커스 티', false, true)">
             <div class="card-badges">
                 <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달달한 꽃차예요.<br>소화가 잘 되는 성분이 있대요.<br>탄산은 싫고 산뜻한 입가심은 원하신다면 추천!<br>아이스도 맛있어요.')">
                     <span class="info-icon-circle">i</span> 혜은 추천!
                 </div>
                 <div class="badge-static">제로 슈가</div>
+                <div class="badge-static">아이스 전용</div>
             </div>
             <img src="tea.png" class="menu-icon" alt="히비스커스 티">
             <div class="menu-text-wrap">
                 <h3>히비스커스 티</h3>
             </div>
         </div>
-        <!-- 4. 자두에이드 (혜은 추천 추가) -->
+        <!-- 4. 자두에이드 (혜은 추천 + 아이스 전용 나란히) -->
         <div class="menu-card" onclick="openModal('자두에이드', false, false)">
             <div class="card-badges">
                 <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달콤한 자두청과 태국 싱하 소다 워터로 만들어요.<br>시원하게 들이마실 입가심 음료로 추천!')">
                     <span class="info-icon-circle">i</span> 혜은 추천!
                 </div>
+                <div class="badge-static">아이스 전용</div>
             </div>
             <img src="jadu.png" class="menu-icon" alt="자두에이드">
             <div class="menu-text-wrap">
                 <h3>자두에이드</h3>
-                <p style="margin:0; font-size:0.85em; color:#777;">(아이스 전용)</p>
             </div>
         </div>
         <!-- 5. 나랑드사이다 (제로 슈가 + 파인애플 나란히) -->
@@ -556,9 +576,12 @@
         </div>
         <!-- 7. 맥주(카스) -->
         <div class="menu-card" onclick="openModal('맥주(카스)', false, false)">
+            <div class="card-badges">
+                <div class="badge-static">카스</div>
+            </div>
             <img src="beer.png" class="menu-icon" alt="맥주">
             <div class="menu-text-wrap">
-                <h3>맥주 (카스)</h3>
+                <h3>맥주</h3>
             </div>
         </div>
         <!-- 8. 소맥 -->
