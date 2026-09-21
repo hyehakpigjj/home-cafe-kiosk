@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>집들이 홈카페 키오스크</title>
     <style>
-        /* Noto Sans 폰트 얇은 굵기(300) 추가 로드 */
+        /* Noto Sans 폰트 로드 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
 
-        /* 모던 감성 테마 색상 (차분한 연카키 & 샴페인 베이지) */
+        /* 모던 감성 테마 색상 (차분한 연카키 & 크림 톤) */
         :root {
             --bg-khaki: #E5E8DE;        /* 차분하고 정돈된 연카키 배경 */
-            --point-cream: rgba(255, 248, 220, 0.65); /* 부드러운 크림빛 베이지 */
-            --btn-cream: #F5E6CC;      /* 주요 버튼용 소프트 버터 */
-            --btn-cream-active: #E6D2B5;/* 터치 시 진해지는 버터색 */
+            --point-cream: #F9F6EE;     /* 부드러운 크림빛 베이지 */
+            --btn-cream: #F5EFEB;       /* 주요 버튼용 소프트 크림 */
+            --btn-cream-active: #E6E0D5;/* 터치 시 진해지는 크림색 */
             --text-dark: #322F2E;       /* 깊이감 있는 딥 차콜 텍스트 */
-            --glass-bg: rgba(255, 255, 255, 0.65); /* 유리 질감 반투명 흰색 */
-            --glass-border: 1px solid rgba(255, 255, 255, 0.6); /* 은은한 유리 테두리 */
+            --glass-bg: rgba(255, 255, 255, 0.75); /* 헤더/장바구니용 반투명 유리 */
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6); 
             --font-base: 22px; 
         }
 
@@ -26,9 +26,9 @@
             font-family: 'Noto Sans KR', sans-serif;
             margin: 0 auto;
             padding: 0;
-            max-width: 1100px; /* 아이패드/태블릿 가로 비율에 맞춘 최대 폭 고정 */
+            max-width: 1100px; 
             min-height: 100vh;
-            box-shadow: 0 0 40px rgba(0,0,0,0.1); /* 양옆 여백에 자연스러운 입체감 */
+            box-shadow: 0 0 40px rgba(0,0,0,0.1); 
             font-size: var(--font-base);
             user-select: none; 
             -webkit-user-select: none;
@@ -63,8 +63,8 @@
         }
 
         .admin-btn {
-            background: rgba(255, 255, 255, 0.4);
-            border: var(--glass-border);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0,0,0,0.06);
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -74,9 +74,10 @@
             font-size: 1.2em;
             cursor: pointer;
             transition: transform 0.1s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
             -webkit-tap-highlight-color: transparent;
         }
-        .admin-btn:active { transform: scale(0.85); background: rgba(255, 255, 255, 0.7); }
+        .admin-btn:active { transform: scale(0.85); background: #fff; }
 
         .menu-container {
             display: grid;
@@ -86,26 +87,24 @@
             margin-bottom: 150px; 
         }
 
-        /* 글래스모피즘이 적용된 메뉴 카드 */
+        /* 메뉴 카드는 깔끔한 솔리드 화이트 (누끼 이미지 완벽 대비) */
         .menu-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: var(--glass-border);
+            background: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 1);
             border-radius: 20px;
             padding: 25px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
             cursor: pointer;
-            transition: transform 0.1s, background 0.2s;
+            transition: transform 0.1s, box-shadow 0.2s;
             touch-action: manipulation;
             position: relative; 
         }
 
-        .menu-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.85); }
+        .menu-card:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); }
         .menu-card h3 { margin: 0; font-size: 1.5em; }
         .menu-icon { 
             width: 60px; 
@@ -118,15 +117,14 @@
             position: absolute;
             top: 12px;
             right: 15px;
-            background: rgba(254, 240, 178, 0.8);
-            backdrop-filter: blur(4px);
+            background: #F4F1EA;
             color: var(--text-dark);
             font-size: 0.6em;
             font-weight: 500;
             padding: 4px 9px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             display: flex;
             align-items: center;
             gap: 5px;
@@ -140,17 +138,17 @@
             position: absolute;
             top: 12px;
             right: 15px;
-            background: rgba(255, 255, 255, 0.5);
-            color: #555;
+            background: #F4F1EA;
+            color: #666;
             font-size: 0.55em;
             font-weight: 500;
             padding: 4px 8px;
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(0,0,0,0.04);
             z-index: 2;
         }
 
-        /* 정중앙 정렬된 완벽한 원형 i 아이콘 */
+        /* 정중앙 정렬된 원형 i 아이콘 */
         .info-icon-circle {
             display: inline-flex;
             align-items: center;
@@ -161,12 +159,12 @@
             color: #FFF;
             border-radius: 50%;
             font-size: 0.8em;
-            font-style: normal; /* 이탤릭 제거 */
-            font-weight: 400; /* 볼드 제거 */
+            font-style: normal; 
+            font-weight: 400; 
             line-height: 1;
         }
 
-        /* 하단 장바구니 바 (글래스모피즘) */
+        /* 하단 장바구니 바 */
         .cart-bar {
             position: fixed;
             bottom: 0;
@@ -194,27 +192,29 @@
         .cart-info { font-size: 1.2em; font-weight: bold; }
         
         .cart-btn {
-            background: rgba(221, 226, 214, 0.7);
-            border: var(--glass-border);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0,0,0,0.08);
             color: var(--text-dark);
             padding: 12px 25px;
             border-radius: 30px;
             font-size: 1.1em;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: all 0.2s;
         }
-        .cart-btn:active { background: rgba(195, 201, 188, 0.9); }
+        .cart-btn:active { background: #fff; transform: scale(0.96); }
 
         .order-btn {
             background-color: var(--btn-cream); 
             color: var(--text-dark); 
-            border: var(--glass-border);
+            border: 1px solid rgba(0,0,0,0.08);
             padding: 15px 40px;
             border-radius: 30px;
             font-size: 1.3em;
             font-weight: 500;
             cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
             transition: all 0.1s; 
             -webkit-tap-highlight-color: transparent; 
         }
@@ -223,7 +223,7 @@
             transform: scale(0.96);
         }
 
-        /* 모달 팝업 공통 (유리 질감 백그라운드) */
+        /* 모달 팝업 공통 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -240,17 +240,17 @@
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             padding: 35px;
             border-radius: 24px;
             width: 80%;
             max-width: 400px;
             text-align: center;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
 
         .modal-title { font-size: 1.5em; margin-bottom: 20px; font-weight: bold; }
@@ -281,18 +281,19 @@
         .radio-btn {
             flex: 1;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(0,0,0,0.08);
+            background: #F4F1EA;
+            border: 1px solid rgba(0,0,0,0.06);
             border-radius: 12px;
             text-align: center;
             font-weight: 500;
             cursor: pointer;
         }
         .radio-btn.active {
-            background-color: #FEF0B2; 
-            border-color: var(--btn-cream); 
+            background-color: var(--btn-cream); 
+            border-color: #D3C9B6; 
             color: var(--text-dark);
             font-weight: 700;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
         }
 
         .qty-control {
@@ -304,43 +305,47 @@
             font-size: 1.5em;
         }
         .qty-btn {
-            background-color: transparent; 
-            color: #79836B; 
-            border: none;
+            background-color: #F4F1EA; 
+            color: var(--text-dark); 
+            border: 1px solid rgba(0,0,0,0.06);
             width: 50px; height: 50px;
+            border-radius: 50%;
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 2em; 
-            font-weight: 300; 
+            font-size: 1.5em; 
+            font-weight: 400; 
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
             line-height: 1;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
         .qty-btn:active {
-            transform: scale(0.8); 
-            color: var(--btn-cream-active); 
+            transform: scale(0.9); 
+            background-color: var(--btn-cream-active); 
         }
 
         .modal-actions { display: flex; gap: 10px; }
         .btn-cancel, .btn-add {
             flex: 1; padding: 15px; border: none; border-radius: 12px; font-size: 1.2em; font-weight: 500; cursor: pointer;
             transition: all 0.1s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
             -webkit-tap-highlight-color: transparent;
         }
         .btn-cancel { 
-            background-color: rgba(234, 236, 227, 0.8); 
-            color: #79836B; 
+            background-color: #EAE6DD; 
+            color: #665F55; 
         }
-        .btn-cancel:active { background-color: rgba(221, 226, 214, 0.9); transform: scale(0.96); }
+        .btn-cancel:active { background-color: #DCD6CC; transform: scale(0.96); }
 
         .btn-add { 
             background-color: var(--btn-cream); 
             color: var(--text-dark); 
             font-weight: 700;
+            border: 1px solid rgba(0,0,0,0.06);
         }
         .btn-add:active { 
             background-color: var(--btn-cream-active) !important; 
@@ -383,7 +388,7 @@
         .cart-edit-info { flex-grow: 1; text-align: left; font-weight: bold; }
         .cart-edit-actions { display: flex; gap: 15px; align-items: center; }
         .action-btn { padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 0.8em; }
-        .btn-edit { background-color: #FEF0B2; color: #3E3A39; }
+        .btn-edit { background-color: var(--btn-cream); border: 1px solid rgba(0,0,0,0.05); color: #322F2E; }
         .btn-delete { background-color: #fce4e4; color: #d9534f; }
 
         /* 주문 완료 목록 */
