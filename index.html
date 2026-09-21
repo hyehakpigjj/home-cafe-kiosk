@@ -28,11 +28,12 @@
         }
 
         :root {
-            --bg-khaki: #EAECE3;
-            --point-yellow: #FEF0B2;
-            --btn-yellow: #F4D35E;
-            --btn-yellow-active: #E3B92E;
-            --text-dark: #3E3A39;
+            --bg-khaki: #E8EDE1;
+            --cream-bg: #F9F9F5;
+            --point-pink: #FFC4D4;
+            --btn-pink: #FF9FB8;
+            --btn-pink-active: #E688A1;
+            --text-dark: #4A4A4A;
             --white: #FFFFFF;
             --font-base: 22px; 
         }
@@ -129,7 +130,7 @@
 
         .badge-container { display: flex; gap: 5px; margin-bottom: 4px; }
         .badge { font-size: 0.6em; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
-        .badge-lactose { background-color: var(--point-yellow); color: var(--text-dark); }
+        .badge-lactose { background-color: var(--point-pink); color: var(--text-dark); }
         .badge-recommend { background-color: #4a4a4a; color: white; }
         .badge-zero { background-color: #eee; color: #555; }
 
@@ -169,8 +170,8 @@
         .cart-btn:active { background-color: #C3C9BC; }
 
         .order-btn {
-            background-color: var(--btn-yellow); 
-            color: var(--text-dark); 
+            background-color: var(--btn-pink); 
+            color: white; 
             border: none;
             padding: 15px 40px;
             border-radius: 30px;
@@ -183,7 +184,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
         .order-btn:active { 
-            background-color: var(--btn-yellow-active) !important; 
+            background-color: var(--btn-pink-active) !important; 
             transform: scale(0.95);
         }
 
@@ -228,8 +229,8 @@
             cursor: pointer;
         }
         .radio-btn.active {
-            background-color: var(--point-yellow); 
-            border-color: var(--btn-yellow); 
+            background-color: var(--point-pink); 
+            border-color: var(--btn-pink); 
             color: var(--text-dark);
         }
 
@@ -258,7 +259,7 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
-        .qty-btn:active { transform: scale(0.8); color: var(--btn-yellow-active); }
+        .qty-btn:active { transform: scale(0.8); color: var(--btn-pink-active); }
 
         .modal-actions { display: flex; gap: 10px; }
         .btn-cancel, .btn-add {
@@ -266,10 +267,10 @@
             font-family: 'GmarketSans', sans-serif;
             transition: all 0.1s;
         }
-        .btn-cancel { background-color: #EAECE3; color: #79836B; }
+        .btn-cancel { background-color: #E8EDE1; color: #79836B; }
         .btn-cancel:active { background-color: #DDE2D6; transform: scale(0.95); }
-        .btn-add { background-color: var(--btn-yellow); color: var(--text-dark); }
-        .btn-add:active { background-color: var(--btn-yellow-active) !important; transform: scale(0.95); }
+        .btn-add { background-color: var(--btn-pink); color: var(--text-dark); }
+        .btn-add:active { background-color: var(--btn-pink-active) !important; transform: scale(0.95); }
 
         .large-modal-content {
             width: 90%;
@@ -291,7 +292,7 @@
             padding-top: 20px;
             display: flex;
             justify-content: center;
-            border-top: 2px solid #EAECE3;
+            border-top: 2px solid #E8EDE1;
         }
 
         .cart-edit-item {
@@ -305,7 +306,7 @@
         .cart-edit-info { flex-grow: 1; text-align: left; font-weight: bold; }
         .cart-edit-actions { display: flex; gap: 15px; align-items: center; }
         .action-btn { padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 0.8em; }
-        .btn-edit { background-color: #FEF0B2; color: #3E3A39; }
+        .btn-edit { background-color: var(--point-pink); color: #3E3A39; }
         .btn-delete { background-color: #fce4e4; color: #d9534f; }
 
         #order-list { 
