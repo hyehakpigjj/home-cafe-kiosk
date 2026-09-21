@@ -7,7 +7,7 @@
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
-        /* 지마켓 산스 폰트 등록 (업로드하신 파일명 기준) */
+        /* 지마켓 산스 폰트 등록 */
         @font-face {
             font-family: 'GmarketSans';
             src: url('./GmarketSansTTFLight.ttf') format('truetype');
@@ -28,12 +28,13 @@
         }
 
         :root {
-            --bg-khaki: #E8EDE1;
-            --point-pink: #FFC4D4;
-            --btn-pink: #FF9FB8;
-            --text-dark: #4A4A4A;
+            --bg-khaki: #EAECE3;
+            --point-yellow: #FEF0B2;
+            --btn-yellow: #F4D35E;
+            --btn-yellow-active: #E3B92E;
+            --text-dark: #3E3A39;
             --white: #FFFFFF;
-            --font-base: 22px;
+            --font-base: 22px; 
         }
 
         body {
@@ -43,12 +44,11 @@
             margin: 0;
             padding: 0;
             font-size: var(--font-base);
-            user-select: none;
+            user-select: none; 
             -webkit-user-select: none;
-            touch-action: manipulation;
+            touch-action: manipulation; 
         }
 
-        /* 아이패드 및 모바일 화면 비율 반응형 중앙 정렬 */
         .app-wrapper {
             max-width: 1100px;
             margin: 0 auto;
@@ -68,50 +68,70 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* 타이틀에 지마켓 산스 적용 및 굵기 설정 */
         h1 { 
             margin: 0; 
             font-size: 1.8em; 
             color: var(--text-dark); 
             font-family: 'GmarketSans', sans-serif;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .admin-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .admin-btn:active { transform: scale(0.8); }
 
         .menu-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             padding: 30px;
-            margin-bottom: 150px;
+            margin-bottom: 150px; 
             flex-grow: 1;
         }
 
         .menu-card {
             background-color: var(--white);
             border-radius: 15px;
-            padding: 30px;
+            padding: 25px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 15px; 
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             cursor: pointer;
             transition: transform 0.1s;
             touch-action: manipulation;
+            position: relative;
         }
 
         .menu-card:active { transform: scale(0.95); }
-        
-        /* 메뉴 이름에 지마켓 산스 적용 */
         .menu-card h3 { 
-            margin: 0; 
-            font-size: 1.6em; 
+            margin: 0 0 5px 0; 
+            font-size: 1.5em; 
             font-family: 'GmarketSans', sans-serif;
             font-weight: 500;
         }
-        
-        .menu-icon { font-size: 4em; }
-        .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .menu-icon { font-size: 3em; flex-shrink: 0; }
+        .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; flex-grow: 1; }
+
+        .badge-container { display: flex; gap: 5px; margin-bottom: 4px; }
+        .badge { font-size: 0.6em; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
+        .badge-lactose { background-color: var(--point-yellow); color: var(--text-dark); }
+        .badge-recommend { background-color: #4a4a4a; color: white; }
+        .badge-zero { background-color: #eee; color: #555; }
 
         .cart-bar {
             position: fixed;
@@ -127,13 +147,30 @@
             align-items: center;
             padding: 15px 30px;
             box-sizing: border-box;
-            z-index: 99;
+            z-index: 900;
         }
 
+        .cart-bar-left { display: flex; align-items: center; gap: 15px; }
         .cart-info { font-size: 1.2em; font-weight: bold; }
+        
+        .cart-btn {
+            background-color: #DDE2D6; 
+            color: var(--text-dark);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-family: 'GmarketSans', sans-serif;
+            font-weight: 500;
+        }
+        .cart-btn:active { background-color: #C3C9BC; }
+
         .order-btn {
-            background-color: var(--btn-pink);
-            color: white;
+            background-color: var(--btn-yellow); 
+            color: var(--text-dark); 
             border: none;
             padding: 15px 40px;
             border-radius: 30px;
@@ -142,6 +179,12 @@
             cursor: pointer;
             font-family: 'GmarketSans', sans-serif;
             font-weight: 500;
+            transition: all 0.1s; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        .order-btn:active { 
+            background-color: var(--btn-yellow-active) !important; 
+            transform: scale(0.95);
         }
 
         .modal-overlay {
@@ -153,6 +196,7 @@
             align-items: center;
             z-index: 1000;
         }
+        #option-modal { z-index: 1050; }
 
         .modal-content {
             background: var(--white);
@@ -184,24 +228,27 @@
             cursor: pointer;
         }
         .radio-btn.active {
-            background-color: var(--point-pink);
-            border-color: var(--btn-pink);
+            background-color: var(--point-yellow); 
+            border-color: var(--btn-yellow); 
+            color: var(--text-dark);
         }
 
         .qty-control {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 30px; 
             margin: 20px 0;
             font-size: 1.5em;
         }
         .qty-btn {
-            background-color: var(--bg-khaki);
+            background-color: transparent; 
+            color: #79836B; 
             border: none;
             width: 50px; height: 50px;
-            border-radius: 50%;
-            font-size: 1.5em;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 2em; 
+            font-weight: 300; 
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -209,39 +256,88 @@
             padding: 0;
             line-height: 1;
             touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
+        .qty-btn:active { transform: scale(0.8); color: var(--btn-yellow-active); }
 
         .modal-actions { display: flex; gap: 10px; }
         .btn-cancel, .btn-add {
             flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer;
             font-family: 'GmarketSans', sans-serif;
+            transition: all 0.1s;
         }
-        .btn-cancel { background-color: #ddd; }
-        .btn-add { background-color: var(--btn-pink); color: white; }
+        .btn-cancel { background-color: #EAECE3; color: #79836B; }
+        .btn-cancel:active { background-color: #DDE2D6; transform: scale(0.95); }
+        .btn-add { background-color: var(--btn-yellow); color: var(--text-dark); }
+        .btn-add:active { background-color: var(--btn-yellow-active) !important; transform: scale(0.95); }
 
-        #complete-modal .modal-content {
+        .large-modal-content {
             width: 90%;
             max-width: 1200px;
             height: 85vh;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
+        
+        .modal-body-scroll {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 20px 0;
+            padding-right: 10px;
+        }
+
+        .modal-bottom-fixed {
+            padding-top: 20px;
+            display: flex;
+            justify-content: center;
+            border-top: 2px solid #EAECE3;
+        }
+
+        .cart-edit-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #ccc;
+            padding: 15px 0;
+            font-size: 1.3em;
+        }
+        .cart-edit-info { flex-grow: 1; text-align: left; font-weight: bold; }
+        .cart-edit-actions { display: flex; gap: 15px; align-items: center; }
+        .action-btn { padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 0.8em; }
+        .btn-edit { background-color: #FEF0B2; color: #3E3A39; }
+        .btn-delete { background-color: #fce4e4; color: #d9534f; }
 
         #order-list { 
             text-align: left; 
-            margin: 20px 0; 
-            flex-grow: 1;
-            font-size: 1.5em; 
-            column-count: 2; 
-            column-gap: 40px;
-            column-rule: 2px dashed #ddd; 
-            overflow-y: auto;
+            font-size: 1.2em; 
+            display: flex; 
+            gap: 40px; 
+            align-items: flex-start;
         }
+        .order-col { flex: 1; display: flex; flex-direction: column; }
         .order-item { 
             border-bottom: 1px dashed #ccc; 
-            padding: 15px 0; 
-            break-inside: avoid; 
+            padding: 5px 0; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
         }
+        .order-item.completed .item-text { color: #aaa; text-decoration: line-through; }
+
+        .admin-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 15px;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.2em;
+        }
+        .admin-list-time { font-weight: bold; margin-bottom: 5px; }
+        .admin-list-summary { color: #666; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -249,57 +345,103 @@
     <div class="app-wrapper">
         <header>
             <h1>☕ 혜은&정학 홈카페</h1>
+            <div class="header-buttons">
+                <button class="admin-btn" id="music-btn" onclick="toggleMusic()">🎵</button>
+                <button class="admin-btn" onclick="openAdminModal()">⚙️</button>
+            </div>
         </header>
 
+        <audio id="bg-music" loop>
+            <source src="cafe.mp3" type="audio/mpeg">
+        </audio>
+
         <div class="menu-container">
+            <!-- 1. 아메리카노 -->
             <div class="menu-card" onclick="openModal('아메리카노', true, true)">
                 <div class="menu-icon">☕️</div>
                 <div class="menu-text-wrap">
                     <h3>아메리카노</h3>
                 </div>
             </div>
-            <div class="menu-card" onclick="openModal('카페라떼', true, true)">
+            <!-- 2. 카페라떼 -->
+            <div class="menu-card" onclick="openModal('카페라떼', false, true)">
+                <div class="badge-container">
+                    <span class="badge badge-lactose">락토프리!</span>
+                </div>
                 <div class="menu-icon">🥛</div>
                 <div class="menu-text-wrap">
                     <h3>카페라떼</h3>
+                    <span style="font-size:0.85em; color:#888;">(아이스 전용)</span>
                 </div>
             </div>
-            <div class="menu-card" onclick="openModal('히비스커스 티', true, false)">
+            <!-- 3. 히비스커스 티 -->
+            <div class="menu-card" onclick="openModal('히비스커스 티', false, false)">
                 <div class="menu-icon">🫖</div>
                 <div class="menu-text-wrap">
                     <h3>히비스커스 티</h3>
+                    <span style="font-size:0.85em; color:#888;">(아이스 전용)</span>
                 </div>
             </div>
+            <!-- 4. 자두에이드 -->
             <div class="menu-card" onclick="openModal('자두에이드', false, false)">
                 <div class="menu-icon">🍹</div>
                 <div class="menu-text-wrap">
                     <h3>자두에이드</h3>
-                    <p style="margin:0; font-size:0.9em; color:#888;">(아이스 전용)</p>
+                    <span style="font-size:0.85em; color:#888;">(아이스 전용)</span>
                 </div>
             </div>
-            <div class="menu-card" onclick="openModal('맥주(카스)', false, false)">
-                <div class="menu-icon">🍺</div>
+            <!-- 5. 나랑드사이다 -->
+            <div class="menu-card" onclick="openModal('나랑드사이다', false, false)">
+                <div class="menu-icon">🧊</div>
                 <div class="menu-text-wrap">
-                    <h3>맥주 (카스)</h3>
+                    <div class="badge-container">
+                        <span class="badge badge-zero">제로 슈가</span>
+                    </div>
+                    <h3>나랑드사이다</h3>
                 </div>
             </div>
+            <!-- 6. 냉수 -->
             <div class="menu-card" onclick="openModal('냉수', false, false)">
                 <div class="menu-icon">💧</div>
                 <div class="menu-text-wrap">
                     <h3>냉수</h3>
                 </div>
             </div>
+            <!-- 7. 맥주(카스) -->
+            <div class="menu-card" onclick="openModal('맥주(카스)', false, false)">
+                <div class="menu-icon">🍺</div>
+                <div class="menu-text-wrap">
+                    <h3>맥주 (카스)</h3>
+                </div>
+            </div>
+            <!-- 8. 소맥 -->
+            <div class="menu-card" onclick="openModal('소맥', false, false)">
+                <div class="menu-icon">🍻</div>
+                <div class="menu-text-wrap">
+                    <h3>소맥</h3>
+                </div>
+            </div>
+            <!-- 9. 소주 -->
+            <div class="menu-card" onclick="openModal('소주', false, false)">
+                <div class="menu-icon">🍶</div>
+                <div class="menu-text-wrap">
+                    <h3>소주</h3>
+                </div>
+            </div>
         </div>
 
         <div class="cart-bar">
-            <div class="cart-info">담은 음료: <span id="total-qty">0</span>잔</div>
-            <button class="order-btn" onclick="showOrderComplete()">주문 완료하기</button>
+            <div class="cart-bar-left">
+                <div class="cart-info">담은 음료: <span id="total-qty">0</span>잔</div>
+                <button class="cart-btn" onclick="openCartModal()">🛒 장바구니 확인</button>
+            </div>
+            <button class="order-btn" onclick="submitNewOrder()">주문 완료하기</button>
         </div>
     </div>
 
     <!-- 옵션 선택 모달 -->
     <div class="modal-overlay" id="option-modal">
-        <div class="modal-content">
+        <div class="modal-content" style="z-index: 1010;">
             <div class="modal-title" id="modal-menu-name">메뉴 이름</div>
             
             <div class="option-group" id="temp-option-group">
@@ -332,40 +474,83 @@
         </div>
     </div>
 
+    <!-- 장바구니 확인 모달 -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="modal-content large-modal-content">
+            <div class="modal-title" style="font-size: 2em;">🛒 장바구니 내역</div>
+            <div id="cart-list" class="modal-body-scroll"></div>
+            <div class="modal-bottom-fixed">
+                <button class="cart-btn" style="font-size: 1.5em; padding: 20px 50px;" onclick="closeCartModal()">저장하고 뒤로가기</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 주문 완료 모달 (주방 확인용) -->
     <div class="modal-overlay" id="complete-modal">
-        <div class="modal-content">
-            <div class="modal-title" style="font-size: 2em;">📝 주문 내역서 (주방용)</div>
-            <div id="order-list">
-                <!-- 주문 내역이 여기에 표시됩니다 -->
+        <div class="modal-content large-modal-content">
+            <div class="modal-title" id="order-title" style="font-size: 1.8em;">📝 주문 내역서 (주방용)</div>
+            <div id="order-list" class="modal-body-scroll"></div>
+            <div class="modal-bottom-fixed">
+                <button class="order-btn" style="font-size: 1.2em; padding: 15px 40px;" onclick="closeOrderComplete()">새로운 주문 받기 (돌아가기)</button>
             </div>
-            <button class="btn-add" style="width: 100%; margin-top:20px; padding: 25px; font-size: 1.5em;" onclick="resetKiosk()">새로운 주문 받기 (초기화)</button>
+        </div>
+    </div>
+
+    <!-- 관리자 페이지 모달 -->
+    <div class="modal-overlay" id="admin-modal">
+        <div class="modal-content large-modal-content">
+            <div class="modal-title" style="font-size: 1.8em;">⚙️ 관리자 페이지 (주문 목록)</div>
+            <div id="admin-list" class="modal-body-scroll" style="text-align: left;"></div>
+            <div class="modal-bottom-fixed">
+                <button class="cart-btn" style="font-size: 1.2em; padding: 15px 40px;" onclick="closeAdminModal()">닫기</button>
+            </div>
         </div>
     </div>
 
     <script>
         let cart = [];
+        let cartIdCounter = 0;
+        let editingCartId = null;
+        let orderHistory = []; 
+        let currentViewingOrderId = null; 
         
+        const MENU_ORDER = ['아메리카노', '카페라떼', '히비스커스 티', '자두에이드', '나랑드사이다', '냉수', '맥주(카스)', '소맥', '소주'];
+
         let currentMenu = '';
         let currentTemp = '아이스';
         let currentShot = '기본';
         let currentQty = 1;
 
-        function openModal(menuName, hasTemp, hasShot) {
+        function sortItems(itemsArray) {
+            return itemsArray.sort((a, b) => {
+                const indexA = MENU_ORDER.indexOf(a.menu);
+                const indexB = MENU_ORDER.indexOf(b.menu);
+                if (indexA !== indexB) {
+                    return (indexA === -1 ? 99 : indexA) - (indexB === -1 ? 99 : indexB);
+                }
+                return a.id - b.id; 
+            });
+        }
+
+        function openModal(menuName, hasTemp, hasShot, editId = null, defaultTemp = null, defaultShot = null, defaultQty = 1) {
             currentMenu = menuName;
-            currentTemp = hasTemp ? '아이스' : '';
-            currentShot = hasShot ? '기본' : '';
-            currentQty = 1;
+            currentTemp = defaultTemp !== null ? defaultTemp : (hasTemp ? '아이스' : '');
+            currentShot = defaultShot !== null ? defaultShot : (hasShot ? '기본' : '');
+            currentQty = defaultQty;
+            editingCartId = editId; 
 
-            document.getElementById('modal-menu-name').innerText = menuName;
+            document.getElementById('modal-menu-name').innerText = menuName + (editId !== null ? ' (옵션 수정)' : '');
             document.getElementById('modal-qty').innerText = currentQty;
-
+            
             document.getElementById('temp-option-group').style.display = hasTemp ? 'block' : 'none';
             document.getElementById('shot-option-group').style.display = hasShot ? 'block' : 'none';
 
             document.querySelectorAll('.radio-btn').forEach(btn => btn.classList.remove('active'));
-            if(hasTemp) document.getElementById('btn-ice').classList.add('active');
-            if(hasShot) document.getElementById('btn-shot-normal').classList.add('active');
+            if(hasTemp && currentTemp === '아이스') document.getElementById('btn-ice').classList.add('active');
+            if(hasTemp && currentTemp === '핫') document.getElementById('btn-hot').classList.add('active');
+            if(hasShot && currentShot === '기본') document.getElementById('btn-shot-normal').classList.add('active');
+            if(hasShot && currentShot === '연하게') document.getElementById('btn-shot-light').classList.add('active');
+            if(hasShot && currentShot === '샷추가') document.getElementById('btn-shot-add').classList.add('active');
 
             document.getElementById('option-modal').style.display = 'flex';
         }
@@ -408,7 +593,23 @@
                 fullMenuName += ` (${optionText.join(', ')})`;
             }
 
-            cart.push({ name: fullMenuName, qty: currentQty });
+            if (editingCartId !== null) {
+                const itemIndex = cart.findIndex(item => item.id === editingCartId);
+                if (itemIndex > -1) {
+                    cart[itemIndex] = { id: editingCartId, menu: currentMenu, temp: currentTemp, shot: currentShot, name: fullMenuName, qty: currentQty };
+                }
+                editingCartId = null;
+                renderCartList(); 
+            } else {
+                const existingItemIndex = cart.findIndex(item => item.menu === currentMenu && item.temp === currentTemp && item.shot === currentShot);
+                if (existingItemIndex > -1) {
+                    cart[existingItemIndex].qty += currentQty;
+                } else {
+                    cartIdCounter++;
+                    cart.push({ id: cartIdCounter, menu: currentMenu, temp: currentTemp, shot: currentShot, name: fullMenuName, qty: currentQty });
+                }
+            }
+
             updateCartUI();
             closeModal();
         }
@@ -418,29 +619,262 @@
             document.getElementById('total-qty').innerText = totalQty;
         }
 
-        function showOrderComplete() {
+        function openCartModal() {
+            renderCartList();
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        function renderCartList() {
+            const listEl = document.getElementById('cart-list');
+            listEl.innerHTML = '';
+            
+            if (cart.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; padding: 50px 0; color:#888; font-size:1.5em;">장바구니가 비어있습니다.</div>';
+                return;
+            }
+
+            const sortedCart = sortItems([...cart]);
+
+            sortedCart.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'cart-edit-item';
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'cart-edit-info';
+                infoDiv.innerText = `${item.name}`;
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'cart-edit-actions';
+
+                const minusBtn = document.createElement('button');
+                minusBtn.className = 'qty-btn';
+                minusBtn.style.width = '40px'; minusBtn.style.height = '40px'; minusBtn.style.fontSize = '1.2em';
+                minusBtn.innerText = '-';
+                minusBtn.onclick = () => updateCartItemQty(item.id, -1);
+
+                const qtySpan = document.createElement('span');
+                qtySpan.innerText = item.qty;
+                qtySpan.style.fontSize = '1.5em';
+                qtySpan.style.fontWeight = 'bold';
+                qtySpan.style.width = '30px';
+                qtySpan.style.textAlign = 'center';
+
+                const plusBtn = document.createElement('button');
+                plusBtn.className = 'qty-btn';
+                plusBtn.style.width = '40px'; plusBtn.style.height = '40px'; plusBtn.style.fontSize = '1.2em';
+                plusBtn.innerText = '+';
+                plusBtn.onclick = () => updateCartItemQty(item.id, 1);
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'action-btn btn-edit';
+                editBtn.innerText = '옵션수정';
+                editBtn.onclick = () => {
+                    const hasTemp = (item.menu === '아메리카노');
+                    const hasShot = (item.menu === '아메리카노' || item.menu === '카페라떼' || item.menu === '히비스커스 티');
+                    openModal(item.menu, hasTemp, hasShot, item.id, item.temp, item.shot, item.qty);
+                };
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'action-btn btn-delete';
+                deleteBtn.innerText = '삭제';
+                deleteBtn.onclick = () => deleteCartItem(item.id);
+
+                actionsDiv.appendChild(minusBtn);
+                actionsDiv.appendChild(qtySpan);
+                actionsDiv.appendChild(plusBtn);
+                actionsDiv.appendChild(editBtn);
+                actionsDiv.appendChild(deleteBtn);
+
+                div.appendChild(infoDiv);
+                div.appendChild(actionsDiv);
+                listEl.appendChild(div);
+            });
+        }
+
+        function updateCartItemQty(id, amount) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += amount;
+                if (item.qty < 1) item.qty = 1;
+                updateCartUI();
+                renderCartList();
+            }
+        }
+
+        function deleteCartItem(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+            renderCartList();
+        }
+
+        function submitNewOrder() {
             if (cart.length === 0) {
                 alert("담은 음료가 없습니다!");
                 return;
             }
+            closeCartModal(); 
 
-            const listEl = document.getElementById('order-list');
-            listEl.innerHTML = '';
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const orderId = Date.now(); 
             
-            cart.forEach(item => {
+            const sortedCart = sortItems([...cart]);
+            const newOrder = {
+                id: orderId,
+                title: `📝 주문 내역서 (${dateStr} ${timeStr})`,
+                timestamp: orderId,
+                items: sortedCart.map(item => ({ ...item, completed: false })) 
+            };
+            
+            orderHistory.push(newOrder); 
+            cart = [];
+            updateCartUI();
+
+            openOrderComplete(orderId);
+        }
+
+        function openOrderComplete(orderId) {
+            currentViewingOrderId = orderId;
+            const order = orderHistory.find(o => o.id === orderId);
+            
+            document.getElementById('order-title').innerText = order.title;
+            
+            const listEl = document.getElementById('order-list');
+            listEl.innerHTML = `
+                <div id="order-col-left" class="order-col"></div>
+                <div id="order-col-right" class="order-col"></div>
+            `;
+            
+            const colLeft = document.getElementById('order-col-left');
+            const colRight = document.getElementById('order-col-right');
+            
+            order.items.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = 'order-item';
-                div.innerText = `✔️ ${item.name} x ${item.qty}잔`;
-                listEl.appendChild(div);
+                div.className = `order-item ${item.completed ? 'completed' : ''}`;
+                
+                div.innerHTML = `
+                    <span class="check-box">${item.completed ? '✅' : '⬜'}</span>
+                    <span class="item-text">${item.name} x ${item.qty}잔</span>
+                `;
+                
+                div.onclick = function() {
+                    item.completed = !item.completed; 
+                    this.classList.toggle('completed', item.completed);
+                    this.querySelector('.check-box').innerText = item.completed ? '✅' : '⬜';
+                };
+
+                if (index < 10) {
+                    colLeft.appendChild(div);
+                } else {
+                    colRight.appendChild(div);
+                }
             });
 
             document.getElementById('complete-modal').style.display = 'flex';
         }
 
-        function resetKiosk() {
-            cart = [];
-            updateCartUI();
+        function closeOrderComplete() {
+            currentViewingOrderId = null;
             document.getElementById('complete-modal').style.display = 'none';
+        }
+
+        function openAdminModal() {
+            renderAdminList();
+            document.getElementById('admin-modal').style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').style.display = 'none';
+        }
+
+        function renderAdminList() {
+            const listEl = document.getElementById('admin-list');
+            listEl.innerHTML = '';
+            
+            if (orderHistory.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; padding: 50px 0; color:#888; font-size:1.2em;">들어온 주문이 없습니다.</div>';
+                return;
+            }
+
+            orderHistory.sort((a, b) => a.timestamp - b.timestamp).forEach(order => {
+                const div = document.createElement('div');
+                div.className = 'admin-list-item';
+                
+                const totalCups = order.items.reduce((sum, item) => sum + item.qty, 0);
+                const completedCups = order.items.filter(item => item.completed).reduce((sum, item) => sum + item.qty, 0);
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.style.flexGrow = '1';
+                infoDiv.style.cursor = 'pointer';
+                infoDiv.onclick = () => {
+                    closeAdminModal();
+                    openOrderComplete(order.id);
+                };
+                infoDiv.innerHTML = `
+                    <div class="admin-list-time">${order.title.replace('📝 ', '')}</div>
+                    <div class="admin-list-summary">총 ${totalCups}잔 (제조 완료: ${completedCups}잔)</div>
+                `;
+
+                const actionDiv = document.createElement('div');
+                actionDiv.style.display = 'flex';
+                actionDiv.style.alignItems = 'center';
+                actionDiv.style.gap = '15px';
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'action-btn btn-delete';
+                delBtn.innerText = '삭제';
+                delBtn.onclick = (e) => {
+                    e.stopPropagation(); 
+                    deleteOrderHistory(order.id);
+                };
+
+                const arrowDiv = document.createElement('div');
+                arrowDiv.style.fontSize = '1.5em';
+                arrowDiv.style.color = '#888';
+                arrowDiv.style.cursor = 'pointer';
+                arrowDiv.innerText = '➡️';
+                arrowDiv.onclick = () => {
+                    closeAdminModal();
+                    openOrderComplete(order.id);
+                };
+
+                actionDiv.appendChild(delBtn);
+                actionDiv.appendChild(arrowDiv);
+
+                div.appendChild(infoDiv);
+                div.appendChild(actionDiv);
+                listEl.appendChild(div);
+            });
+        }
+
+        function deleteOrderHistory(id) {
+            if (confirm("이 주문 내역을 삭제하시겠습니까?")) {
+                orderHistory = orderHistory.filter(order => order.id !== id);
+                renderAdminList(); 
+            }
+        }
+
+        let isMusicPlaying = false;
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            const musicBtn = document.getElementById('music-btn');
+
+            if (isMusicPlaying) {
+                music.pause();
+                musicBtn.innerText = '🎵'; 
+            } else {
+                music.play().catch(error => {
+                    console.log("음원 재생 실패:", error);
+                    alert("음원 파일을 불러올 수 없습니다. cafe.mp3 파일이 업로드되었는지 확인해주세요.");
+                });
+                musicBtn.innerText = '⏸️'; 
+            }
+            isMusicPlaying = !isMusicPlaying;
         }
     </script>
 </body>
