@@ -44,52 +44,71 @@
             margin: 0; 
             font-size: 1.8em; 
             color: var(--text-dark); 
-            font-weight: 400; /* 제목의 볼드(두꺼움)를 제거하여 세련되게 */
+            font-weight: 400; 
             letter-spacing: -0.5px;
         }
 
-        .toggle-btn {
-            background-color: var(--point-pink);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1em;
-            font-weight: bold;
-            color: var(--text-dark);
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        /* 헤더 우측 버튼 그룹 */
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
 
-    .menu-container {
+        .admin-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .admin-btn:active { transform: scale(0.8); }
+
+        .menu-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3개씩 배열 */
+            grid-template-columns: repeat(3, 1fr); /* 3개씩 3줄 배열 (총 9개) */
             gap: 20px;
             padding: 30px;
-            margin-bottom: 150px; /* 장바구니 공간 확보 */
+            margin-bottom: 150px; 
         }
 
         .menu-card {
             background-color: var(--white);
             border-radius: 15px;
-            padding: 30px;
+            padding: 25px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px; /* 아이콘과 글자 사이 간격 */
+            gap: 15px; 
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             cursor: pointer;
             transition: transform 0.1s;
             touch-action: manipulation;
+            position: relative; /* 라떼 말풍선 배지 배치를 위해 추가 */
         }
 
         .menu-card:active { transform: scale(0.95); }
-        .menu-card h3 { margin: 0; font-size: 1.6em; }
+        .menu-card h3 { margin: 0; font-size: 1.5em; }
         .menu-icon { 
-            width: 60px; /* 가로를 살짝 줄여서 날씬하게 */
-            height: 80px; /* 세로를 길게 늘려서 길쭉한 컵 모양으로 */
-            /* object-fit 속성을 지워서 강제로 설정한 가로/세로 비율에 맞춰지도록 함 */
+            width: 60px; 
+            height: 80px; 
         }
         .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+
+        /* 라떼 락토프리 말풍선 배지 */
+        .badge-lactose {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background-color: var(--point-yellow);
+            color: var(--text-dark);
+            font-size: 0.65em;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
 
         /* 장바구니 (하단 고정) */
         .cart-bar {
@@ -104,6 +123,7 @@
             align-items: center;
             padding: 15px 30px;
             box-sizing: border-box;
+            z-index: 900;
         }
 
         .cart-bar-left {
@@ -115,7 +135,7 @@
         .cart-info { font-size: 1.2em; font-weight: bold; }
         
         .cart-btn {
-            background-color: #DDE2D6; /* 버튼용 카키 배경 */
+            background-color: #DDE2D6; 
             color: var(--text-dark);
             border: none;
             padding: 12px 25px;
@@ -128,8 +148,8 @@
         .cart-btn:active { background-color: #C3C9BC; }
 
         .order-btn {
-            background-color: var(--btn-yellow); /* 진한 버터색 */
-            color: var(--text-dark); /* 배경이 밝으므로 텍스트는 어둡게 */
+            background-color: var(--btn-yellow); 
+            color: var(--text-dark); 
             border: none;
             padding: 15px 40px;
             border-radius: 30px;
@@ -140,7 +160,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
         .order-btn:active { 
-            background-color: var(--btn-yellow-active) !important; /* 더 짙은 버터색으로 눌림 */
+            background-color: var(--btn-yellow-active) !important; 
             transform: scale(0.95);
         }
 
@@ -154,7 +174,6 @@
             align-items: center;
             z-index: 1000;
         }
-        /* 옵션 모달을 장바구니 모달보다 항상 위로 노출 */
         #option-modal {
             z-index: 1050; 
         }
@@ -184,8 +203,8 @@
             cursor: pointer;
         }
         .radio-btn.active {
-            background-color: var(--point-yellow); /* 연한 버터옐로우 */
-            border-color: var(--btn-yellow); /* 진한 버터색 테두리 */
+            background-color: var(--point-yellow); 
+            border-color: var(--btn-yellow); 
             color: var(--text-dark);
         }
 
@@ -193,18 +212,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px; /* 사이 간격을 살짝 넓혀 쾌적하게 */
+            gap: 30px; 
             margin: 20px 0;
             font-size: 1.5em;
         }
         .qty-btn {
             background-color: transparent; 
-            color: #79836B; /* 세련된 진카키 텍스트 */
+            color: #79836B; 
             border: none;
             width: 50px; height: 50px;
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 2em; /* 크기를 키우고 */
-            font-weight: 300; /* 볼드를 제거하여 얇고 우아한 기호로 변경 */
+            font-size: 2em; 
+            font-weight: 300; 
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -215,8 +234,8 @@
             -webkit-tap-highlight-color: transparent;
         }
         .qty-btn:active {
-            transform: scale(0.8); /* 터치 시 살짝 작아지는 애니메이션 */
-            color: var(--btn-yellow-active); /* 터치 시 포인트 컬러 */
+            transform: scale(0.8); 
+            color: var(--btn-yellow-active); 
         }
 
         .modal-actions { display: flex; gap: 10px; }
@@ -226,7 +245,7 @@
             -webkit-tap-highlight-color: transparent;
         }
         .btn-cancel { 
-            background-color: #EAECE3; /* 연카키 톤으로 통일 */
+            background-color: #EAECE3; 
             color: #79836B; 
         }
         .btn-cancel:active { background-color: #DDE2D6; transform: scale(0.95); }
@@ -279,17 +298,16 @@
         .btn-edit { background-color: #FEF0B2; color: #3E3A39; }
         .btn-delete { background-color: #fce4e4; color: #d9534f; }
 
-        /* 주문 완료 목록 (가로로 긴 양쪽 펼침 노트형, 스크롤 가능) */
         /* 주문 완료 목록 (좌측 10개 우선 채움, 초과 시 우측, 스크롤 가능) */
         #order-list { 
             text-align: left; 
             font-size: 1.2em; 
-            display: flex; /* grid 대신 flex 사용 */
-            gap: 40px; /* 좌우 단 간격 */
+            display: flex; 
+            gap: 40px; 
             align-items: flex-start;
         }
         .order-col {
-            flex: 1; /* 좌우 공간을 50%씩 동일하게 차지 */
+            flex: 1; 
             display: flex;
             flex-direction: column;
         }
@@ -303,29 +321,20 @@
             user-select: none;
             touch-action: manipulation;
         }
-        /* 제조 완료 시 텍스트 스타일 */
         .order-item.completed .item-text {
             color: #aaa;
             text-decoration: line-through;
         }
 
-        /* 헤더 우측 버튼 그룹 */
-        .header-buttons {
-            display: flex;
-            gap: 15px; /* 버튼 사이 간격 */
-            align-items: center;
-        }
-
-        /* 헤더 아이콘 버튼들 (음악, 관리자) */
+        /* 헤더 관리자 아이콘 */
         .admin-btn {
             background: none;
             border: none;
             font-size: 1.5em;
             cursor: pointer;
             transition: transform 0.1s;
-            -webkit-tap-highlight-color: transparent;
         }
-        .admin-btn:active { transform: scale(0.8); }
+        .admin-btn:active { transform: scale(0.9); }
         
         /* 관리자 목록 */
         .admin-list-item {
@@ -351,7 +360,7 @@
         }
     </style>
 </head>
-<body ontouchstart=""> <!-- ontouchstart 추가: 아이패드에서 터치 효과가 즉시 발동하도록 강제 -->
+<body ontouchstart="">
     <header>
         <h1>☕ 혜은&정학 홈카페</h1>
         <div class="header-buttons">
@@ -360,47 +369,77 @@
         </div>
     </header>
 
-    <!-- 배경음악 오디오 태그 (반복 재생 설정) -->
+    <!-- 배경음악 오디오 태그 -->
     <audio id="bg-music" loop>
-        <source src="aria.mp3" type="audio/mpeg">
+        <source src="cafe.mp3" type="audio/mpeg">
     </audio>
 
     <div class="menu-container">
+        <!-- 1. 아메리카노 -->
         <div class="menu-card" onclick="openModal('아메리카노', true, true)">
             <img src="americano.png" class="menu-icon" alt="아메리카노">
             <div class="menu-text-wrap">
                 <h3>아메리카노</h3>
             </div>
         </div>
-        <div class="menu-card" onclick="openModal('카페라떼', true, true)">
+        <!-- 2. 카페라떼 (락토프리 배지, 아이스 전용) -->
+        <div class="menu-card" onclick="openModal('카페라떼', false, true)">
+            <div class="badge-lactose">락토프리!</div>
             <img src="latte.png" class="menu-icon" alt="카페라떼">
             <div class="menu-text-wrap">
                 <h3>카페라떼</h3>
+                <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
             </div>
         </div>
-        <div class="menu-card" onclick="openModal('히비스커스 티', true, false)">
+        <!-- 3. 히비스커스 티 (아이스 전용) -->
+        <div class="menu-card" onclick="openModal('히비스커스 티', false, false)">
             <img src="tea.png" class="menu-icon" alt="히비스커스 티">
             <div class="menu-text-wrap">
                 <h3>히비스커스 티</h3>
+                <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
             </div>
         </div>
+        <!-- 4. 자두에이드 -->
         <div class="menu-card" onclick="openModal('자두에이드', false, false)">
             <img src="jadu.png" class="menu-icon" alt="자두에이드">
             <div class="menu-text-wrap">
                 <h3>자두에이드</h3>
-                <p style="margin:0; font-size:0.9em; color:#888;">(아이스 전용)</p>
+                <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
             </div>
         </div>
+        <!-- 5. 나랑드사이다 (신규) -->
+        <div class="menu-card" onclick="openModal('나랑드사이다', false, false)">
+            <img src="cider.png" class="menu-icon" alt="나랑드사이다">
+            <div class="menu-text-wrap">
+                <h3>나랑드사이다</h3>
+            </div>
+        </div>
+        <!-- 6. 냉수 -->
+        <div class="menu-card" onclick="openModal('냉수', false, false)">
+            <img src="water.png" class="menu-icon" alt="냉수">
+            <div class="menu-text-wrap">
+                <h3>냉수</h3>
+            </div>
+        </div>
+        <!-- 7. 맥주(카스) -->
         <div class="menu-card" onclick="openModal('맥주(카스)', false, false)">
             <img src="beer.png" class="menu-icon" alt="맥주">
             <div class="menu-text-wrap">
                 <h3>맥주 (카스)</h3>
             </div>
         </div>
-        <div class="menu-card" onclick="openModal('냉수', false, false)">
-            <img src="water.png" class="menu-icon" alt="냉수">
+        <!-- 8. 소맥 (신규) -->
+        <div class="menu-card" onclick="openModal('소맥', false, false)">
+            <img src="somak.png" class="menu-icon" alt="소맥">
             <div class="menu-text-wrap">
-                <h3>냉수</h3>
+                <h3>소맥</h3>
+            </div>
+        </div>
+        <!-- 9. 소주 (신규) -->
+        <div class="menu-card" onclick="openModal('소주', false, false)">
+            <img src="soju.png" class="menu-icon" alt="소주">
+            <div class="menu-text-wrap">
+                <h3>소주</h3>
             </div>
         </div>
     </div>
@@ -493,11 +532,11 @@
         let editingCartId = null;
 
         // 시스템 전역 변수 (관리자용 데이터)
-        let orderHistory = []; // 제출된 주문들을 모아두는 배열
-        let currentViewingOrderId = null; // 현재 보고 있는 주문서 ID
+        let orderHistory = []; 
+        let currentViewingOrderId = null; 
         
-        // 정렬을 위한 메뉴 순서 배열 (지정하신 순서)
-        const MENU_ORDER = ['아메리카노', '카페라떼', '히비스커스 티', '자두에이드', '맥주(카스)', '냉수'];
+        // 정렬을 위한 메뉴 순서 배열 (1~9번 지정 순서 반영)
+        const MENU_ORDER = ['아메리카노', '카페라떼', '히비스커스 티', '자두에이드', '나랑드사이다', '냉수', '맥주(카스)', '소맥', '소주'];
 
         // 현재 모달 상태
         let currentMenu = '';
@@ -505,7 +544,7 @@
         let currentShot = '기본';
         let currentQty = 1;
 
-        // 아이템 정렬 함수 (1순위: 메뉴 순서, 2순위: 담은 시간순)
+        // 아이템 정렬 함수
         function sortItems(itemsArray) {
             return itemsArray.sort((a, b) => {
                 const indexA = MENU_ORDER.indexOf(a.menu);
@@ -516,7 +555,7 @@
                     const weightB = indexB === -1 ? 99 : indexB;
                     return weightA - weightB;
                 }
-                return a.id - b.id; // 메뉴가 같으면 담은 시간순
+                return a.id - b.id; 
             });
         }
 
@@ -529,6 +568,8 @@
 
             document.getElementById('modal-menu-name').innerText = menuName + (editId !== null ? ' (옵션 수정)' : '');
             document.getElementById('modal-qty').innerText = currentQty;
+            
+            // 온도/샷 옵션 영역 노출 제어 (히비스커스나 라떼는 온도 선택 영역 숨김)
             document.getElementById('temp-option-group').style.display = hasTemp ? 'block' : 'none';
             document.getElementById('shot-option-group').style.display = hasShot ? 'block' : 'none';
 
@@ -625,7 +666,6 @@
                 return;
             }
 
-            // 장바구니 렌더링 시 정렬 적용
             const sortedCart = sortItems([...cart]);
 
             sortedCart.forEach(item => {
@@ -662,8 +702,8 @@
                 editBtn.className = 'action-btn btn-edit';
                 editBtn.innerText = '옵션수정';
                 editBtn.onclick = () => {
-                    const hasTemp = item.temp !== '';
-                    const hasShot = item.shot !== '';
+                    const hasTemp = (item.menu === '아메리카노'); // 아메리카노만 온도 선택 가능
+                    const hasShot = (item.menu === '아메리카노' || item.menu === '카페라떼' || item.menu === '히비스커스 티');
                     openModal(item.menu, hasTemp, hasShot, item.id, item.temp, item.shot, item.qty);
                 };
 
@@ -700,7 +740,7 @@
             renderCartList();
         }
 
-        // --- 주문 제출 및 내역서(주방용) 로직 ---
+        // --- 주문 제출 및 내역서 로직 ---
         function submitNewOrder() {
             if (cart.length === 0) {
                 alert("담은 음료가 없습니다!");
@@ -708,28 +748,24 @@
             }
             closeCartModal(); 
 
-            // 타임스탬프 생성 (날짜 포함, 초 단위 제거)
             const now = new Date();
             const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
             const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            const orderId = Date.now(); // 고유 ID로 사용
+            const orderId = Date.now(); 
             
-            // 정렬된 상태로 새 주문 객체 생성
             const sortedCart = sortItems([...cart]);
             const newOrder = {
                 id: orderId,
                 title: `📝 주문 내역서 (${dateStr} ${timeStr})`,
                 timestamp: orderId,
-                items: sortedCart.map(item => ({ ...item, completed: false })) // 체크박스 상태 추가
+                items: sortedCart.map(item => ({ ...item, completed: false })) 
             };
             
-            orderHistory.push(newOrder); // 관리자 데이터에 적재
+            orderHistory.push(newOrder); 
             
-            // 주문 완료되었으므로 현재 장바구니는 깔끔하게 비움
             cart = [];
             updateCartUI();
 
-            // 생성된 주문 내역서 화면 열기
             openOrderComplete(orderId);
         }
 
@@ -740,7 +776,6 @@
             document.getElementById('order-title').innerText = order.title;
             
             const listEl = document.getElementById('order-list');
-            // 좌측과 우측을 담을 두 개의 기둥(div)을 생성합니다.
             listEl.innerHTML = `
                 <div id="order-col-left" class="order-col"></div>
                 <div id="order-col-right" class="order-col"></div>
@@ -758,14 +793,13 @@
                     <span class="item-text">${item.name} x ${item.qty}잔</span>
                 `;
                 
-                // 터치 시 해당 주문의 완료 상태(데이터) 업데이트 및 화면 변경
                 div.onclick = function() {
                     item.completed = !item.completed; 
                     this.classList.toggle('completed', item.completed);
                     this.querySelector('.check-box').innerText = item.completed ? '✅' : '⬜';
                 };
 
-                // 10번째(index 0~9)까지는 왼쪽, 그 이후는 오른쪽에 담습니다.
+                // 왼쪽 10개 우선 채우고 이후 오른쪽으로 분할
                 if (index < 10) {
                     colLeft.appendChild(div);
                 } else {
@@ -800,7 +834,6 @@
                 return;
             }
 
-            // 오름차순 정렬 (먼저 들어온 주문이 위로)
             orderHistory.sort((a, b) => a.timestamp - b.timestamp).forEach(order => {
                 const div = document.createElement('div');
                 div.className = 'admin-list-item';
@@ -809,7 +842,6 @@
                 const totalCups = order.items.reduce((sum, item) => sum + item.qty, 0);
                 const completedCups = order.items.filter(item => item.completed).reduce((sum, item) => sum + item.qty, 0);
                 
-                // 1. 주문 정보 영역 (터치 시 상세 모달 오픈)
                 const infoDiv = document.createElement('div');
                 infoDiv.style.flexGrow = '1';
                 infoDiv.style.cursor = 'pointer';
@@ -822,22 +854,19 @@
                     <div class="admin-list-summary">총 ${totalCups}잔 (제조 완료: ${completedCups}잔)</div>
                 `;
 
-                // 2. 우측 버튼 영역 (삭제 버튼 + 화살표)
                 const actionDiv = document.createElement('div');
                 actionDiv.style.display = 'flex';
                 actionDiv.style.alignItems = 'center';
                 actionDiv.style.gap = '15px';
 
-                // 삭제 버튼
                 const delBtn = document.createElement('button');
                 delBtn.className = 'action-btn btn-delete';
                 delBtn.innerText = '삭제';
                 delBtn.onclick = (e) => {
-                    e.stopPropagation(); // 영역 클릭 시 모달창이 뜨는 것을 방지
+                    e.stopPropagation(); 
                     deleteOrderHistory(order.id);
                 };
 
-                // 화살표 아이콘 (터치 시 상세 모달 오픈)
                 const arrowDiv = document.createElement('div');
                 arrowDiv.style.fontSize = '1.5em';
                 arrowDiv.style.color = '#888';
@@ -857,11 +886,10 @@
             });
         }
 
-        // 주문 내역 삭제 기능
         function deleteOrderHistory(id) {
             if (confirm("이 주문 내역을 삭제하시겠습니까?")) {
                 orderHistory = orderHistory.filter(order => order.id !== id);
-                renderAdminList(); // 목록 새로고침
+                renderAdminList(); 
             }
         }
 
@@ -873,13 +901,13 @@
 
             if (isMusicPlaying) {
                 music.pause();
-                musicBtn.innerText = '🎵'; // 일시정지 시 다시 음표 아이콘으로
+                musicBtn.innerText = '🎵'; 
             } else {
                 music.play().catch(error => {
-                    console.log("음원 재생 실패(파일이 없거나 브라우저 차단):", error);
-                    alert("음원 파일을 불러올 수 없습니다. aria.mp3 파일이 업로드되었는지 확인해주세요.");
+                    console.log("음원 재생 실패:", error);
+                    alert("음원 파일을 불러올 수 없습니다. cafe.mp3 파일이 업로드되었는지 확인해주세요.");
                 });
-                musicBtn.innerText = '⏸️'; // 재생 중일 땐 일시정지 아이콘으로
+                musicBtn.innerText = '⏸️'; 
             }
             isMusicPlaying = !isMusicPlaying;
         }
