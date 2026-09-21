@@ -8,14 +8,15 @@
         /* Noto Sans 폰트 얇은 굵기(300) 추가 로드 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
 
-        /* 감성 테마 색상 (연카키 & 버터옐로우) */
+        /* 모던 감성 테마 색상 (차분한 연카키 & 샴페인 베이지) */
         :root {
-            --bg-khaki: #EAECE3;      /* 조금 더 포근해진 연카키 */
-            --point-yellow: #FEF0B2;  /* 부드러운 연한 버터옐로우 (옵션 선택 배경) */
-            --btn-yellow: #F4D35E;    /* 진한 버터색 (주요 버튼) */
-            --btn-yellow-active: #E3B92E; /* 터치 시 짙어지는 버터색 */
-            --text-dark: #3E3A39;     /* 텍스트 대비를 위한 짙은 회갈색(차콜) */
-            --white: #FFFFFF;
+            --bg-khaki: #E5E8DE;        /* 차분하고 정돈된 연카키 배경 */
+            --point-cream: rgba(255, 248, 220, 0.65); /* 부드러운 크림빛 베이지 */
+            --btn-cream: #F5E6CC;      /* 주요 버튼용 소프트 버터 */
+            --btn-cream-active: #E6D2B5;/* 터치 시 진해지는 버터색 */
+            --text-dark: #322F2E;       /* 깊이감 있는 딥 차콜 텍스트 */
+            --glass-bg: rgba(255, 255, 255, 0.65); /* 유리 질감 반투명 흰색 */
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6); /* 은은한 유리 테두리 */
             --font-base: 22px; 
         }
 
@@ -36,8 +37,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 30px;
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: var(--glass-border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
 
         h1 { 
@@ -56,39 +60,49 @@
         }
 
         .admin-btn {
-            background: none;
-            border: none;
-            font-size: 1.5em;
+            background: rgba(255, 255, 255, 0.4);
+            border: var(--glass-border);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
             cursor: pointer;
             transition: transform 0.1s;
             -webkit-tap-highlight-color: transparent;
         }
-        .admin-btn:active { transform: scale(0.8); }
+        .admin-btn:active { transform: scale(0.85); background: rgba(255, 255, 255, 0.7); }
 
         .menu-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3개씩 3줄 배열 (총 9개) */
+            grid-template-columns: repeat(3, 1fr); 
             gap: 20px;
             padding: 30px;
             margin-bottom: 150px; 
         }
 
+        /* 글래스모피즘이 적용된 메뉴 카드 */
         .menu-card {
-            background-color: var(--white);
-            border-radius: 15px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: var(--glass-border);
+            border-radius: 20px;
             padding: 25px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: transform 0.1s, background 0.2s;
             touch-action: manipulation;
             position: relative; 
         }
 
-        .menu-card:active { transform: scale(0.95); }
+        .menu-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.85); }
         .menu-card h3 { margin: 0; font-size: 1.5em; }
         .menu-icon { 
             width: 60px; 
@@ -96,50 +110,70 @@
         }
         .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
 
-        /* 설명 모달 버튼 (우측 상단 배지 스타일) */
+        /* 설명 모달 버튼 (인터랙션형) 및 단순 뱃지 공통 스타일 */
         .badge-info {
             position: absolute;
-            top: 10px;
+            top: 12px;
             right: 15px;
-            background-color: var(--point-yellow);
+            background: rgba(254, 240, 178, 0.8);
+            backdrop-filter: blur(4px);
             color: var(--text-dark);
             font-size: 0.6em;
-            font-weight: 700;
-            padding: 4px 8px;
+            font-weight: 500;
+            padding: 4px 9px;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             cursor: pointer;
             z-index: 2;
         }
-        .badge-info:active {
-            transform: scale(0.9);
+        .badge-info:active { transform: scale(0.92); }
+
+        /* 단순 정보형 뱃지 (나랑드사이다 제로 슈가) */
+        .badge-static {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            color: #555;
+            font-size: 0.55em;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            z-index: 2;
         }
-        /* 둥근 원형 i 아이콘 */
+
+        /* 정중앙 정렬된 완벽한 원형 i 아이콘 */
         .info-icon-circle {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 15px;
             background-color: var(--text-dark);
-            color: var(--white);
+            color: #FFF;
             border-radius: 50%;
-            font-size: 0.85em;
-            font-style: italic;
-            font-weight: bold;
+            font-size: 0.8em;
+            font-style: normal; /* 이탤릭 제거 */
+            font-weight: 400; /* 볼드 제거 */
+            line-height: 1;
         }
 
-        /* 장바구니 (하단 고정) */
+        /* 하단 장바구니 바 (글래스모피즘) */
         .cart-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: var(--white);
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: var(--glass-border);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -157,41 +191,43 @@
         .cart-info { font-size: 1.2em; font-weight: bold; }
         
         .cart-btn {
-            background-color: #DDE2D6; 
+            background: rgba(221, 226, 214, 0.7);
+            border: var(--glass-border);
             color: var(--text-dark);
-            border: none;
             padding: 12px 25px;
             border-radius: 30px;
             font-size: 1.1em;
-            font-weight: bold;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background 0.2s;
         }
-        .cart-btn:active { background-color: #C3C9BC; }
+        .cart-btn:active { background: rgba(195, 201, 188, 0.9); }
 
         .order-btn {
-            background-color: var(--btn-yellow); 
+            background-color: var(--btn-cream); 
             color: var(--text-dark); 
-            border: none;
+            border: var(--glass-border);
             padding: 15px 40px;
             border-radius: 30px;
             font-size: 1.3em;
-            font-weight: bold;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.1s; 
             -webkit-tap-highlight-color: transparent; 
         }
         .order-btn:active { 
-            background-color: var(--btn-yellow-active) !important; 
-            transform: scale(0.95);
+            background-color: var(--btn-cream-active) !important; 
+            transform: scale(0.96);
         }
 
-        /* 모달 팝업 공통 */
+        /* 모달 팝업 공통 (유리 질감 백그라운드) */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -201,13 +237,17 @@
         }
 
         .modal-content {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 35px;
+            border-radius: 24px;
             width: 80%;
             max-width: 400px;
             text-align: center;
             position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
         .modal-title { font-size: 1.5em; margin-bottom: 20px; font-weight: bold; }
@@ -237,17 +277,19 @@
         .radio-group { display: flex; gap: 10px; }
         .radio-btn {
             flex: 1;
-            padding: 10px;
-            border: 2px solid var(--bg-khaki);
-            border-radius: 10px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 12px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 500;
             cursor: pointer;
         }
         .radio-btn.active {
-            background-color: var(--point-yellow); 
-            border-color: var(--btn-yellow); 
+            background-color: #FEF0B2; 
+            border-color: var(--btn-cream); 
             color: var(--text-dark);
+            font-weight: 700;
         }
 
         .qty-control {
@@ -255,7 +297,7 @@
             justify-content: center;
             align-items: center;
             gap: 30px; 
-            margin: 20px 0;
+            margin: 25px 0;
             font-size: 1.5em;
         }
         .qty-btn {
@@ -277,28 +319,29 @@
         }
         .qty-btn:active {
             transform: scale(0.8); 
-            color: var(--btn-yellow-active); 
+            color: var(--btn-cream-active); 
         }
 
         .modal-actions { display: flex; gap: 10px; }
         .btn-cancel, .btn-add {
-            flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer;
+            flex: 1; padding: 15px; border: none; border-radius: 12px; font-size: 1.2em; font-weight: 500; cursor: pointer;
             transition: all 0.1s;
             -webkit-tap-highlight-color: transparent;
         }
         .btn-cancel { 
-            background-color: #EAECE3; 
+            background-color: rgba(234, 236, 227, 0.8); 
             color: #79836B; 
         }
-        .btn-cancel:active { background-color: #DDE2D6; transform: scale(0.95); }
+        .btn-cancel:active { background-color: rgba(221, 226, 214, 0.9); transform: scale(0.96); }
 
         .btn-add { 
-            background-color: var(--btn-yellow); 
+            background-color: var(--btn-cream); 
             color: var(--text-dark); 
+            font-weight: 700;
         }
         .btn-add:active { 
-            background-color: var(--btn-yellow-active) !important; 
-            transform: scale(0.95);
+            background-color: var(--btn-cream-active) !important; 
+            transform: scale(0.96);
         }
 
         /* 대형 모달 (장바구니 및 주문완료) */
@@ -322,7 +365,7 @@
             padding-top: 20px;
             display: flex;
             justify-content: center;
-            border-top: 2px solid #EAECE3;
+            border-top: 2px solid rgba(0,0,0,0.05);
         }
 
         /* 장바구니 내역 편집 리스트 */
@@ -330,7 +373,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px dashed #ccc;
+            border-bottom: 1px dashed #ddd;
             padding: 15px 0;
             font-size: 1.3em;
         }
@@ -340,7 +383,7 @@
         .btn-edit { background-color: #FEF0B2; color: #3E3A39; }
         .btn-delete { background-color: #fce4e4; color: #d9534f; }
 
-        /* 주문 완료 목록 (좌측 10개 우선 채움, 초과 시 우측, 스크롤 가능) */
+        /* 주문 완료 목록 */
         #order-list { 
             text-align: left; 
             font-size: 1.2em; 
@@ -368,29 +411,19 @@
             text-decoration: line-through;
         }
 
-        /* 헤더 관리자 아이콘 */
-        .admin-btn {
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .admin-btn:active { transform: scale(0.9); }
-        
         /* 관리자 목록 */
         .admin-list-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 15px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
             font-size: 1.2em;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background 0.2s;
         }
         .admin-list-item:active {
-            background-color: #f5f5f5;
+            background-color: rgba(0,0,0,0.02);
         }
         .admin-list-time {
             font-weight: bold;
@@ -424,7 +457,7 @@
                 <h3>아메리카노</h3>
             </div>
         </div>
-        <!-- 2. 카페라떼 (배 아픈 우유! 설명 모달 버튼 추가, 아이스 전용) -->
+        <!-- 2. 카페라떼 (배 안 아픈 우유! 설명 모달 버튼) -->
         <div class="menu-card" onclick="openModal('카페라떼', false, true)">
             <div class="badge-info" onclick="event.stopPropagation(); openDescModal('배 안 아픈 우유!', '락토프리 우유로 만들어요. 우유에 들어있는 유당(락토오스)을 제거해, 마신 후 배탈이 나지 않아요!')">
                 <span class="info-icon-circle">i</span> 배 안 아픈 우유!
@@ -432,10 +465,10 @@
             <img src="latte.png" class="menu-icon" alt="카페라떼">
             <div class="menu-text-wrap">
                 <h3>카페라떼</h3>
-                <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
+                <p style="margin:0; font-size:0.85em; color:#777;">(아이스 전용)</p>
             </div>
         </div>
-        <!-- 3. 히비스커스 티 (혜은 추천! 설명 모달 버튼 추가, 핫/아이스 가능) -->
+        <!-- 3. 히비스커스 티 (혜은 추천! 설명 모달 버튼, 핫/아이스 가능) -->
         <div class="menu-card" onclick="openModal('히비스커스 티', true, true)">
             <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달달한 꽃차인데 제로 슈가예요! 소화가 잘 되게 해주는 성분이 있대요. 아이스로 마셔도 맛있어요. 혜은이 좋아하는 차')">
                 <span class="info-icon-circle">i</span> 혜은 추천!
@@ -450,14 +483,12 @@
             <img src="jadu.png" class="menu-icon" alt="자두에이드">
             <div class="menu-text-wrap">
                 <h3>자두에이드</h3>
-                <p style="margin:0; font-size:0.85em; color:#888;">(아이스 전용)</p>
+                <p style="margin:0; font-size:0.85em; color:#777;">(아이스 전용)</p>
             </div>
         </div>
-        <!-- 5. 나랑드사이다 (나랑드 파인애플 설명 모달 버튼 추가) -->
+        <!-- 5. 나랑드사이다 (단순 제로 슈가 배지) -->
         <div class="menu-card" onclick="openModal('나랑드사이다', false, false)">
-            <div class="badge-info" onclick="event.stopPropagation(); openDescModal('나랑드 파인애플', '나랑드 사이드 파인 애플맛을 얼음과 함께 드려요. 제로 슈가예요!')">
-                <span class="info-icon-circle">i</span> 나랑드 파인애플
-            </div>
+            <div class="badge-static">제로 슈가</div>
             <img src="cider.png" class="menu-icon" alt="나랑드사이다">
             <div class="menu-text-wrap">
                 <h3>나랑드사이다</h3>
@@ -589,20 +620,16 @@
         let cartIdCounter = 0;
         let editingCartId = null;
 
-        // 시스템 전역 변수 (관리자용 데이터)
         let orderHistory = []; 
         let currentViewingOrderId = null; 
         
-        // 정렬을 위한 메뉴 순서 배열 (1~9번 지정 순서 반영)
         const MENU_ORDER = ['아메리카노', '카페라떼', '히비스커스 티', '자두에이드', '나랑드사이다', '냉수', '맥주(카스)', '소맥', '소주'];
 
-        // 현재 모달 상태
         let currentMenu = '';
         let currentTemp = '아이스';
         let currentShot = '기본';
         let currentQty = 1;
 
-        // 아이템 정렬 함수
         function sortItems(itemsArray) {
             return itemsArray.sort((a, b) => {
                 const indexA = MENU_ORDER.indexOf(a.menu);
@@ -617,7 +644,6 @@
             });
         }
 
-        // --- 설명 모달 제어 함수 ---
         function openDescModal(title, text) {
             document.getElementById('desc-modal-title').innerText = title;
             document.getElementById('desc-modal-text').innerText = text;
@@ -638,7 +664,6 @@
             document.getElementById('modal-menu-name').innerText = menuName + (editId !== null ? ' (옵션 수정)' : '');
             document.getElementById('modal-qty').innerText = currentQty;
             
-            // 온도/샷 옵션 영역 노출 제어
             document.getElementById('temp-option-group').style.display = hasTemp ? 'block' : 'none';
             document.getElementById('shot-option-group').style.display = hasShot ? 'block' : 'none';
 
@@ -716,7 +741,6 @@
             document.getElementById('total-qty').innerText = totalQty;
         }
 
-        // --- 장바구니 로직 ---
         function openCartModal() {
             renderCartList();
             document.getElementById('cart-modal').style.display = 'flex';
@@ -771,7 +795,7 @@
                 editBtn.className = 'action-btn btn-edit';
                 editBtn.innerText = '옵션수정';
                 editBtn.onclick = () => {
-                    const hasTemp = (item.menu === '아메리카노' || item.menu === '히비스커스 티'); // 아메리카노, 히비스커스 온도 선택 가능
+                    const hasTemp = (item.menu === '아메리카노' || item.menu === '히비스커스 티'); 
                     const hasShot = (item.menu === '아메리카노' || item.menu === '카페라떼' || item.menu === '히비스커스 티');
                     openModal(item.menu, hasTemp, hasShot, item.id, item.temp, item.shot, item.qty);
                 };
@@ -809,7 +833,6 @@
             renderCartList();
         }
 
-        // --- 주문 제출 및 내역서 로직 ---
         function submitNewOrder() {
             if (cart.length === 0) {
                 alert("담은 음료가 없습니다!");
@@ -831,7 +854,6 @@
             };
             
             orderHistory.push(newOrder); 
-            
             cart = [];
             updateCartUI();
 
@@ -883,7 +905,6 @@
             document.getElementById('complete-modal').style.display = 'none';
         }
 
-        // --- 관리자 페이지 로직 ---
         function openAdminModal() {
             renderAdminList();
             document.getElementById('admin-modal').style.display = 'flex';
@@ -961,7 +982,6 @@
             }
         }
 
-        // --- 배경음악 재생 로직 ---
         let isMusicPlaying = false;
         function toggleMusic() {
             const music = document.getElementById('bg-music');
