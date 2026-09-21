@@ -112,32 +112,36 @@
         }
         .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
 
-        /* 설명 모달 버튼 (인터랙션형) 및 단순 뱃지 공통 스타일 */
-        .badge-info {
+        /* 우측 상단 뱃지 컨테이너 (여러 개 나란히 정렬용) */
+        .card-badges {
             position: absolute;
             top: 12px;
             right: 15px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* 설명 모달 버튼 (인터랙션형) 및 단순 뱃지 공통 스타일 */
+        .badge-info {
             background: #F4F1EA;
             color: var(--text-dark);
-            font-size: 0.6em;
+            font-size: 0.55em;
             font-weight: 500;
-            padding: 4px 9px;
+            padding: 4px 8px;
             border-radius: 12px;
             border: 1px solid rgba(0,0,0,0.05);
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             cursor: pointer;
-            z-index: 2;
         }
         .badge-info:active { transform: scale(0.92); }
 
-        /* 단순 정보형 뱃지 (나랑드사이다 제로 슈가) */
+        /* 단순 정보형 뱃지 (제로 슈가 등) */
         .badge-static {
-            position: absolute;
-            top: 12px;
-            right: 15px;
             background: #F4F1EA;
             color: #666;
             font-size: 0.55em;
@@ -145,7 +149,6 @@
             padding: 4px 8px;
             border-radius: 10px;
             border: 1px solid rgba(0,0,0,0.04);
-            z-index: 2;
         }
 
         /* 정중앙 정렬된 원형 i 아이콘 */
@@ -153,12 +156,12 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
             background-color: var(--text-dark);
             color: #FFF;
             border-radius: 50%;
-            font-size: 0.8em;
+            font-size: 0.75em;
             font-style: normal; 
             font-weight: 400; 
             line-height: 1;
@@ -253,23 +256,30 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
 
-        .modal-title { font-size: 1.5em; margin-bottom: 20px; font-weight: bold; }
+        /* 설명 모달 전용 콤팩트 스타일 */
+        #desc-modal .modal-content {
+            max-width: 340px;
+            padding: 30px 25px;
+        }
+
+        .modal-title { font-size: 1.4em; margin-bottom: 15px; font-weight: bold; }
         
-        /* 설명 모달 전용 스타일 */
+        /* 설명 모달 본문: 가독성 좋은 크기, 자동 줄바꿈, 가운데 정렬 */
         .desc-modal-body {
-            font-size: 1.2em;
+            font-size: 1.05em;
             line-height: 1.6;
             color: var(--text-dark);
-            margin: 25px 0 35px 0;
+            margin: 20px 0 25px 0;
             word-break: keep-all;
+            text-align: center;
         }
         .close-x-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 18px;
             background: none;
             border: none;
-            font-size: 1.5em;
+            font-size: 1.3em;
             cursor: pointer;
             color: #888;
         }
@@ -465,10 +475,12 @@
                 <h3>아메리카노</h3>
             </div>
         </div>
-        <!-- 2. 카페라떼 (배 안 아픈 우유! 설명 모달 버튼) -->
+        <!-- 2. 카페라떼 -->
         <div class="menu-card" onclick="openModal('카페라떼', false, true)">
-            <div class="badge-info" onclick="event.stopPropagation(); openDescModal('배 안 아픈 우유!', '락토프리 우유로 만들어요. 우유에 들어있는 유당(락토오스)을 제거해, 마신 후 배탈이 나지 않아요!')">
-                <span class="info-icon-circle">i</span> 배 안 아픈 우유!
+            <div class="card-badges">
+                <div class="badge-info" onclick="event.stopPropagation(); openDescModal('배 안 아픈 우유!', '락토프리 우유로 만들어요.<br>우유에 들어있는 유당을 제거해,<br>마신 후 배탈이 나지 않아요!')">
+                    <span class="info-icon-circle">i</span> 배 안 아픈 우유!
+                </div>
             </div>
             <img src="latte.png" class="menu-icon" alt="카페라떼">
             <div class="menu-text-wrap">
@@ -476,27 +488,38 @@
                 <p style="margin:0; font-size:0.85em; color:#777;">(아이스 전용)</p>
             </div>
         </div>
-        <!-- 3. 히비스커스 티 (혜은 추천! 설명 모달 버튼, 핫/아이스 가능) -->
+        <!-- 3. 히비스커스 티 (혜은 추천 + 제로 슈가 나란히) -->
         <div class="menu-card" onclick="openModal('히비스커스 티', true, true)">
-            <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달달한 꽃차인데 제로 슈가예요! 소화가 잘 되게 해주는 성분이 있대요. 아이스로 마셔도 맛있어요. 혜은이 좋아하는 차')">
-                <span class="info-icon-circle">i</span> 혜은 추천!
+            <div class="card-badges">
+                <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달달한 꽃차예요.<br>소화가 잘 되는 성분이 있대요.<br>탄산은 싫고 산뜻한 입가심은 원하신다면 추천!<br>아이스도 맛있어요.')">
+                    <span class="info-icon-circle">i</span> 혜은 추천!
+                </div>
+                <div class="badge-static">제로 슈가</div>
             </div>
             <img src="tea.png" class="menu-icon" alt="히비스커스 티">
             <div class="menu-text-wrap">
                 <h3>히비스커스 티</h3>
             </div>
         </div>
-        <!-- 4. 자두에이드 -->
+        <!-- 4. 자두에이드 (혜은 추천 추가) -->
         <div class="menu-card" onclick="openModal('자두에이드', false, false)">
+            <div class="card-badges">
+                <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달콤한 자두청과 태국 싱하 소다 워터로 만들어요.<br>시원하게 들이마실 입가심 음료로 추천!')">
+                    <span class="info-icon-circle">i</span> 혜은 추천!
+                </div>
+            </div>
             <img src="jadu.png" class="menu-icon" alt="자두에이드">
             <div class="menu-text-wrap">
                 <h3>자두에이드</h3>
                 <p style="margin:0; font-size:0.85em; color:#777;">(아이스 전용)</p>
             </div>
         </div>
-        <!-- 5. 나랑드사이다 (단순 제로 슈가 배지) -->
+        <!-- 5. 나랑드사이다 (제로 슈가 + 파인애플 나란히) -->
         <div class="menu-card" onclick="openModal('나랑드사이다', false, false)">
-            <div class="badge-static">제로 슈가</div>
+            <div class="card-badges">
+                <div class="badge-static">제로 슈가</div>
+                <div class="badge-static">파인애플</div>
+            </div>
             <img src="cider.png" class="menu-icon" alt="나랑드사이다">
             <div class="menu-text-wrap">
                 <h3>나랑드사이다</h3>
@@ -652,9 +675,9 @@
             });
         }
 
-        function openDescModal(title, text) {
+        function openDescModal(title, htmlText) {
             document.getElementById('desc-modal-title').innerText = title;
-            document.getElementById('desc-modal-text').innerText = text;
+            document.getElementById('desc-modal-text').innerHTML = htmlText;
             document.getElementById('desc-modal').style.display = 'flex';
         }
 
