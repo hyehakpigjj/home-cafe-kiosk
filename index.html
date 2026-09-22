@@ -169,7 +169,7 @@
 
         /* 설명 모달 버튼 (인터랙션형) 및 단순 뱃지 공통 스타일 */
         .badge-info {
-            background: #F4F1EA;
+            background: #ffd4e5;
             color: var(--text-dark);
             font-size: 0.55em;
             font-weight: 500;
@@ -343,8 +343,8 @@
             cursor: pointer;
         }
         .radio-btn.active {
-            background-color: var(--btn-cream); 
-            border-color: #D3C9B6; 
+            background-color: #ffd4e5; 
+            border-color: #e5b5c7; 
             color: var(--text-dark);
             font-weight: 700;
             box-shadow: 0 2px 5px rgba(0,0,0,0.04);
@@ -508,7 +508,7 @@
 
     <!-- 배경음악 오디오 태그 -->
     <audio id="bg-music" loop>
-        <source src="cafe.mp3" type="audio/mpeg">
+        <source src="aria.mp3" type="audio/mpeg">
     </audio>
 
     <div class="menu-container">
@@ -543,12 +543,9 @@
                 <h3>히비스커스 티</h3>
             </div>
         </div>
-        <!-- 4. 자두에이드 (혜은 추천 + 아이스 전용 나란히) -->
+        <!-- 4. 자두에이드 (아이스 전용) -->
         <div class="menu-card" onclick="openModal('자두에이드', false, false)">
             <div class="card-badges">
-                <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달콤한 자두청과 태국 싱하 소다 워터로 만들어요.<br>시원하게 들이마실 입가심 음료로 추천!')">
-                    <span class="info-icon-circle">i</span> 혜은 추천!
-                </div>
                 <div class="badge-static">아이스 전용</div>
             </div>
             <img src="jadu.png" class="menu-icon" alt="자두에이드">
@@ -655,7 +652,10 @@
     <!-- 장바구니 확인 모달 -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content large-modal-content">
-            <div class="modal-title" style="font-size: 2em;">🛒 장바구니 내역</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;">
+                <div class="modal-title" style="font-size: 2em; margin: 0;">🛒 장바구니 내역</div>
+                <div style="font-size: 1.1em; font-weight: bold; color: var(--text-dark);">담은 음료: <span id="cart-modal-total-qty">0</span>잔</div>
+            </div>
             <div id="cart-list" class="modal-body-scroll">
                 <!-- 장바구니 내역이 여기에 표시됩니다 -->
             </div>
@@ -1069,7 +1069,7 @@
             } else {
                 music.play().catch(error => {
                     console.log("음원 재생 실패:", error);
-                    alert("음원 파일을 불러올 수 없습니다. cafe.mp3 파일이 업로드되었는지 확인해주세요.");
+                    alert("음원 파일을 불러올 수 없습니다. aria.mp3 파일이 업로드되었는지 확인해주세요.");
                 });
                 musicBtn.innerText = '⏸️'; 
             }
