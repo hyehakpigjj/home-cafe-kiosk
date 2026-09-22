@@ -815,6 +815,10 @@
         function updateCartUI() {
             const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('total-qty').innerText = totalQty;
+            const modalTotalQtyEl = document.getElementById('cart-modal-total-qty');
+            if (modalTotalQtyEl) {
+                modalTotalQtyEl.innerText = totalQty;
+            }
         }
 
         function openCartModal() {
@@ -966,7 +970,7 @@
                     this.querySelector('.check-box').innerText = item.completed ? '✅' : '⬜';
                 };
 
-                if (index < 10) {
+                if (index < 9) {
                     colLeft.appendChild(div);
                 } else {
                     colRight.appendChild(div);
