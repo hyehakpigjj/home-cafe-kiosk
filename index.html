@@ -203,20 +203,19 @@
         }
 
         /* 설명 모달 버튼 (인터랙션형) 및 단순 뱃지 공통 스타일 */
-        /* 설명 모달 버튼 (인터랙션형) 및 단순 뱃지 공통 스타일 */
         .badge-info {
-            background: #ffd9e2;
-            color: var(--text-dark);
+            background: #F4F1EA;
+            color: #666;
             font-size: 0.55em;
             font-weight: 500;
             padding: 4px 8px;
-            border-radius: 12px;
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.04);
             display: flex;
             align-items: center;
             gap: 4px;
             cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         .badge-info:active { transform: scale(0.92); }
 
@@ -571,13 +570,12 @@
             </div>
         </div>
         <!-- 3. 히비스커스 티 -->
-        <div class="menu-card" onclick="openModal('히비스커스 티', false, true)">
+        <div class="menu-card" onclick="openModal('히비스커스 티', true, false)">
             <div class="card-badges">
                 <div class="badge-info" onclick="event.stopPropagation(); openDescModal('혜은 추천!', '달달한 꽃차예요.<br>소화가 잘 되는 성분이 있대요.<br>탄산은 싫고 산뜻한 입가심은 원하신다면 추천!<br>아이스도 맛있어요.')">
                     <span class="info-icon-circle">i</span> 혜은 추천!
                 </div>
                 <div class="badge-static">제로 슈가</div>
-                <div class="badge-static">아이스 전용</div>
             </div>
             <div class="menu-icon-wrap">
                 <img src="tea.PNG" class="menu-icon" alt="히비스커스 티">
@@ -931,7 +929,7 @@
                 editBtn.innerText = '옵션수정';
                 editBtn.onclick = () => {
                     const hasTemp = (item.menu === '아메리카노' || item.menu === '히비스커스 티'); 
-                    const hasShot = (item.menu === '아메리카노' || item.menu === '카페라떼' || item.menu === '히비스커스 티');
+                    const hasShot = (item.menu === '아메리카노' || item.menu === '카페라떼');
                     openModal(item.menu, hasTemp, hasShot, item.id, item.temp, item.shot, item.qty);
                 };
 
