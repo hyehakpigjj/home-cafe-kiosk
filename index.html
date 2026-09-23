@@ -151,8 +151,14 @@
             border: 1px solid rgba(0,0,0,0.04);
         }
         .menu-icon { 
-            width: 60px; 
-            height: 80px; 
+            max-width: 60px;
+            max-height: 80px;
+            object-fit: contain; /* 이미지 비율을 깨지 않고 안에 쏙 들어가게 함 */
+        }
+        
+        /* 소주나 작은 잔 종류는 개별적으로 더 작게 설정 */
+        .menu-icon.small-icon {
+            max-height: 50px; /* 소주잔 등에 맞게 높이 조절 */
         }
         .menu-text-wrap { display: flex; flex-direction: column; align-items: flex-start; }
 
@@ -514,7 +520,7 @@
     <div class="menu-container">
         <!-- 1. 아메리카노 -->
         <div class="menu-card" onclick="openModal('아메리카노', true, true)">
-            <img src="americano.png" class="menu-icon" alt="아메리카노">
+            <img src="americano.PNG" class="menu-icon" alt="아메리카노">
             <div class="menu-text-wrap">
                 <h3>아메리카노</h3>
             </div>
@@ -525,7 +531,7 @@
                 <div class="badge-static">배 안 아픈 우유</div>
                 <div class="badge-static">아이스 전용</div>
             </div>
-            <img src="latte.png" class="menu-icon" alt="카페라떼">
+            <img src="latte.PNG" class="menu-icon" alt="카페라떼">
             <div class="menu-text-wrap">
                 <h3>카페라떼</h3>
             </div>
@@ -539,7 +545,7 @@
                 <div class="badge-static">제로 슈가</div>
                 <div class="badge-static">아이스 전용</div>
             </div>
-            <img src="tea.png" class="menu-icon" alt="히비스커스 티">
+            <img src="tea.PNG" class="menu-icon" alt="히비스커스 티">
             <div class="menu-text-wrap">
                 <h3>히비스커스 티</h3>
             </div>
@@ -549,7 +555,7 @@
             <div class="card-badges">
                 <div class="badge-static">아이스 전용</div>
             </div>
-            <img src="jadu.png" class="menu-icon" alt="자두에이드">
+            <img src="jadu.PNG" class="menu-icon" alt="자두에이드">
             <div class="menu-text-wrap">
                 <h3>자두에이드</h3>
             </div>
@@ -560,14 +566,14 @@
                 <div class="badge-static">제로 슈가</div>
                 <div class="badge-static">파인애플</div>
             </div>
-            <img src="cider.png" class="menu-icon" alt="나랑드사이다">
+            <img src="cider.PNG" class="menu-icon" alt="나랑드사이다">
             <div class="menu-text-wrap">
                 <h3>나랑드사이다</h3>
             </div>
         </div>
         <!-- 6. 냉수 -->
         <div class="menu-card" onclick="openModal('냉수', false, false)">
-            <img src="water.png" class="menu-icon" alt="냉수">
+            <img src="water.PNG" class="menu-icon" alt="냉수">
             <div class="menu-text-wrap">
                 <h3>냉수</h3>
             </div>
@@ -577,21 +583,21 @@
             <div class="card-badges">
                 <div class="badge-static">카스</div>
             </div>
-            <img src="beer.png" class="menu-icon" alt="맥주">
+            <img src="beer.PNG" class="menu-icon" alt="맥주">
             <div class="menu-text-wrap">
                 <h3>맥주</h3>
             </div>
         </div>
         <!-- 8. 소맥 -->
         <div class="menu-card" onclick="openModal('소맥', false, false)">
-            <img src="somak.png" class="menu-icon" alt="소맥">
+            <img src="somak.PNG" class="menu-icon" alt="소맥">
             <div class="menu-text-wrap">
                 <h3>소맥</h3>
             </div>
         </div>
         <!-- 9. 소주 -->
         <div class="menu-card" onclick="openModal('소주', false, false)">
-            <img src="soju.png" class="menu-icon" alt="소주">
+            <img src="soju.PNG" class="menu-icon small-icon" alt="소주">
             <div class="menu-text-wrap">
                 <h3>소주</h3>
             </div>
